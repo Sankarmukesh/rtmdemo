@@ -1,0 +1,174 @@
+<div *ngIf="!showControlStores">
+  <mat-card>
+    <mat-card-content class="mat-card_content">
+      <div><span class="mat_heading">Selected features to Map control and test stores</span></div>
+      <hr/>
+      <div>
+        <mat-radio-group [(ngModel)]="defaultChecked" name="defaultChecked" (ngModelChange)="callChecked(defaultChecked)">
+          <mat-radio-button value="1" >I want the tool to recommend</mat-radio-button>
+          <!-- <mat-radio-button *ngIf="!isRTMImpactTest" value="2" class="pl-2">I want to manually select</mat-radio-button>
+          <mat-radio-button value="3" class="pl-2">I want to select control stores pool</mat-radio-button> -->
+        </mat-radio-group>
+      </div>
+      <div *ngIf="defaultChecked === '1'" class="suggested_outer">
+        <div><span class="mat_heading" style="font-size: 0.75rem!important;font-family: Mulish_bold!important;">Selected features ({{selectedFeaturescount}}
+          )</span></div>
+        <hr/>
+        <div class="content_alignment">
+          <div *ngFor="let critera of matchingCriteria">
+            {{critera}}
+            <!-- <i class="fa fa-times font_align" aria-hidden="true"></i> -->
+          </div>
+        </div>
+      </div>
+      <div class="row pt-3">
+        <div class="col-md-4 col-sm-12 col-lg-4">
+          <div class="form-group">
+            <label class="label_change">No. of Control Store per test store</label>
+            <input class="form-control" [(ngModel)]="control_pertest" type="number" name="control_pertest" min="1"  onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"/>
+          </div>
+        </div>
+        <span style="font-style: italic;
+        padding-left: 1rem;
+        font-size: 13px;">{{controlStoreMessage}}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="defaultChecked === '2'" class="margin_split_equally">
+    <mat-card-content class="mat-card_content">
+      <div><span class="mat_heading">Additional Details</span></div>
+      <hr/>
+      <div class="upload_container">
+        <div class="uplad_text1 font_mulish_regular">Want to exclude control stores from mapping? Upload it in this
+          format to go to the next step
+        </div>
+        <div class="upload_text2 font_mulish_bold" (click)="dowDEMOoadTemplate('testControlPairs')" style="cursor: pointer;">Click here to
+          dowDEMOoad the template
+        </div>
+        <ng-container *ngIf="statusFail">
+          <div class="upload_text1 font_mulish_regular font_color_fail">{{uploadMessage}}</div>
+        </ng-container>
+        <ng-container *ngIf="uploaded">
+          <div class="upload_text1 font_mulish_regular font_color">{{uploadMessage}}</div>
+          <div class="upload_text3 font_mulish_regular">You can either continue the upload excluding the conflicting
+            values or cancel the whole upload
+          </div>
+          <button mat-button (click)="cancelUpload()" class="button-color-enable font_size_button"
+                  style="margin-right: 1rem">Cancel
+          </button>
+          <!-- <button mat-button class="button-color-enabled-background pl-2 font_size_button"
+                  (click)="contineUpload(false)">Contine
+          </button> -->
+        </ng-container>
+        <div *ngIf="!uploaded" (click)="uploadFile.click()">
+          <button mat-button class="pl-2 button-color-enabled-background" style="margin-top: 1rem;">Upload File</button>
+          <input #uploadFile type="file" id="grade_csv" style="display:none" accept=".xlsx"
+                 (change)="handleFileInput($event.target.files)" name="selectTestStore"/>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="defaultChecked === '3'" class="margin_split_equally">
+    <mat-card-content class="mat-card_content">
+      <div><span class="mat_heading">Additional Details</span></div>
+      <hr/>
+      <div class="upload_container">
+        <div class="uplad_text1 font_mulish_regular">Want to exclude control stores from mapping? Upload it in this
+          format to go to the next step
+        </div>
+        <div class="upload_text2 font_mulish_bold" (click)="dowDEMOoadTemplate('controlPairs')" style="cursor: pointer;">Click here to
+          dowDEMOoad the template
+        </div>
+        <ng-container *ngIf="statusFailPool">
+          <div class="upload_text1 font_mulish_regular font_color_fail">{{uploadMessageControl}}</div>
+        </ng-container>
+        <ng-container *ngIf="uploadedControl">
+          <div class="upload_text1 font_mulish_regular font_color">{{uploadMessageControl}}</div>
+          <div class="upload_text3 font_mulish_regular">You can either continue the upload excluding the conflicting
+            values or cancel the whole upload
+          </div>
+          <button mat-button (click)="cancelUploadControl()" class="button-color-enable font_size_button"
+                  style="margin-right: 1rem">Cancel
+          </button>
+          <!-- <button mat-button class="button-color-enabled-background pl-2 font_size_button"
+                  (click)="contineUploadControl(false)">Contine
+          </button> -->
+        </ng-container>
+        <div *ngIf="!uploadedControl" (click)="uploadFileControlpool.click()">
+          <button mat-button class="pl-2 button-color-enabled-background" style="margin-top: 1rem;">Upload File</button>
+          <input #uploadFileControlpool type="file" id="grade_csv" style="display:none" accept=".xlsx"
+                 (change)="handleFileInputControlStore($event.target.files)" name="selectTestStore"/>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="showControlStores">
+  <div *ngIf="!controlStoreView">
+    <mat-card>
+      <mat-card-content class="mat-card_content">
+        <div><span class="mat_heading">Test store to Control store mapping</span></div>
+        <hr/>
+        <app-common-table [tableData]="ControlStoreTable" [columnHeader]="columnHeader1" [tableType]="control"
+                          [stringSelectionControlStore]="selection1" (showValueData)="showValue($event)"
+                          (checkboxLabelControlStoreData)="checkboxLabel(row)"
+                          (callSortData)="sortDatacontrolStore($event)" (searchFilter)="FilterLoadSavedTest($event)"></app-common-table>
+        <div *ngIf="testStoreDataCount == 0" style="text-align:center"><p class="no_rec_found">No records found</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="controlStoreView">
+    <mat-card>
+      <mat-card-content class="mat-card_content">
+        <div><span class="mat_heading">Test - Control comparison summary</span></div>
+        <hr/>
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-lg-12">
+            <div id="control_charts"></div>
+          </div>
+        </div>
+        <div fxLayout="row pt-3" fxLayoutAlign="space-between center">
+          <div fxFlex="48" class="background_change">
+            <div class="row">
+              <div class="col-md-3 col-lg-3 col-sm-3 control_value text-center">{{avg_test_control}}%</div>
+              <div class="col-md-9 col-lg-9 col-sm-9 control_text">Avg. match between a test stores and control stores
+              </div>
+            </div>
+          </div>
+          <div fxFlex="48" class="background_change">
+            <div class="row">
+              <div class="col-md-3 col-lg-3 col-sm-3 control_value text-center">{{sales_test_control}}%</div>
+              <div class="col-md-9 col-lg-9 col-sm-9 control_text">Sales correlation value between test and control
+                stores
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-12 col-sm-12 col-lg-12">
+            <ng-container *ngIf="isTableData == true">
+              <ng-container>
+                <table class="table font_mulish_regular">
+                  <tr class="table_head_color">
+                    <th class="border_style_left">Store characteristics</th>
+                    <th>Test mean</th>
+                    <th class="border_style_right">Control mean</th>
+                  </tr>
+                  <tr>
+                    <td>RSV (in  {{currencySymbol}})</td>
+                    <td>{{roundOffWithComma(out_poptestmean)}}</td>
+                    <td>{{roundOffWithComma(out_pop)}}</td>
+                  </tr>
+                </table>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br/>

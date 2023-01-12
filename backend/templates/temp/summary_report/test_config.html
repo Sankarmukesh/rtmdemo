@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="20000" name="pdfkit-javascript-delay"/>
+<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../js/highcharts.js"></script>
+<script src="../js/series-label.js"></script>
+<script src="../js/exporting.js"></script>
+<script src="../js/export-data.js"></script>
+<script>
+  'use strict';
+  (function(setLineDash) {
+  CanvasRenderingContext2D.prototype.setLineDash = function() {
+  if(!arguments[0].length){
+      arguments[0] = [1,0];
+  }
+  // Now, call the original method
+  return setLineDash.apply(this, arguments);
+  };
+  })(CanvasRenderingContext2D.prototype.setLineDash);
+  Function.prototype.bind = Function.prototype.bind || function (thisp) {
+  var fn = this;
+  return function () {
+  return fn.apply(thisp, arguments);
+  };
+  };
+</script>
+<style>
+  .container {
+  width: 320px;
+  margin: 0 auto;
+  display: inline-block;
+}
+.text-overflow{
+  max-width: 100px;
+    overflow: hidden;
+    margin-top: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+   body {
+      font-family: Arial;
+      color: rgb(20, 17, 17);
+   }
+
+    #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 365px;
+    font-size: 7px;
+    }
+
+    #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 5px;
+    }
+
+    #customers tr:nth-child(even){background-color: #e7e7f0;}
+    #customers tr:nth-child(odd){background-color: #cbcbdf;}
+
+    #customers tr:hover {background-color: #ddd;}
+
+    #customers th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: left;
+    background-color: #0000a0;
+    color: white;
+    }
+
+    * {
+  box-sizing: border-box;
+}
+
+.row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+  
+.column {
+  float: left;
+  width: 48%;
+  padding: 5px;
+  font-size: xx-small;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+ul li:before
+{
+  content:'\2713';
+  display:inline-block;
+  color:red;
+  padding:0 6px 0 0;
+  }
+ul li{list-style-type:none;font-size:1em;}
+
+#customers_1 {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 360px;
+    }
+
+    #customers_1 td, #customers_1 th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    }
+
+    #customers_1 tr:nth-child(even){background-color: #e7e7f0;}
+    #customers_1 tr:nth-child(odd){background-color: #cbcbdf;}
+
+    #customers_1 tr:hover {background-color: #ddd;}
+
+    #customers_1 th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0000a0;
+    color: white;
+    }
+    .header{
+      width: 97% !important;
+    border: 1px solid #0000a0;
+    background-color: #0000a0;
+    color: #E6A000;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 25px;
+    }
+
+    .head_title{
+      font-size: 14px;
+    font-weight: 500;
+    }
+
+    .chart_title{
+      font-size: 10px;
+      text-align: center;
+      margin-top: 10px;
+      margin-left: 85px;
+      position: absolute;
+    }
+</style>
+</head>
+<body>
+  <div class="row">
+     <div class="column header">
+      <div class="head_title">
+        
+        <img style="width: 4%;margin-right: 5px;float: left;border-radius: 2px;" src="../img/logo.png">RTM Fast - TEST & LEARN SUMMARY REPORT
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column" style="width: 7%;padding-right: 0;">
+      <img src="../img/test_config.svg" style="height: 240px;
+      width: 30px;">
+    </div>
+    
+    <div class="column" style="width: 50%;padding-left: 0;">
+    
+      <table id="customers">
+        <tr>
+          <th colspan="3" style="text-align: center;">Test Details</th>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td colspan="2">ControlStoreTest</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td colspan="2">Frequency Test</td>
+        </tr>
+        <tr>
+          <td>Target Variable</td>
+          <td colspan="2">RSV</td>
+        </tr>
+        <tr>
+          <td>Test Description</td>
+          <td colspan="2" class="text-overflow"></td>
+        </tr>
+        <!-- <tr>
+          <td rowspan="2">Test Window Selection</td>
+          <td>Pre Test</td>
+          <td>01, Jun 2019 to 30, Jun 2019</td>
+        </tr>
+        <tr>
+          <td>Test</td>
+          <td>01, Jul 2019 to 04, Aug 2019</td>
+        </tr> -->
+        <tr>
+          <td rowspan="3">Selected Test Store Characteristics</td>
+          <td>Channel </td>
+          <td>COLES , WW</td>
+        </tr>
+        <tr>
+          <td>Territory</td>
+          <td>VIC/TAS , QLD , SA/NT , NSW/ACT , WA</td>
+        </tr>
+        
+        <tr>
+          <td>Sales Potential Segment</td>
+          <td>High SP , Medium SP , Low SP</td>
+        </tr>
+        
+        <tr>
+          <td>Confidence Interval</td>
+          <td colspan="2">90%</td>
+        </tr>
+        <tr>
+            <td>Breakeven Lift</td>
+            <td colspan="2">0.26</td>
+        </tr>
+        <tr>
+        <td>Margin of Error</td>
+        <td colspan="2">4</td>
+        </tr>
+      </table>
+    </div>
+    <div class="column" style="width: 40%;">
+      <h3 style="font-size: 10px;text-align: center;margin: 0;
+      padding-bottom: 2px;">Summary Of Selected Test Stores</h3>
+      <div>
+        
+        <table id="customers" style="width: 290px !important;">
+            <tr>
+              <th>#Test Stores</th>
+              <th>59</th>
+            </tr>
+            <tr>
+              <td>Coles</td>
+              <td>27</td>
+            </tr>
+            <tr>
+              <td>WW</td>
+              <td>32</td>
+            </tr>
+        </table>
+        
+      </div>  
+      <div>
+        
+        <table id="customers" style="width: 290px !important;margin-top: 10px;">
+            <tr>
+              <th>Store characteristics</th>
+              <th>Test mean</th>
+              <th>Population mean</th>
+              <th>Test std dev</th>
+              <th>Population std dev</th>
+            </tr>
+            <tr>
+              <td>Baycount</td>
+              <td>22</td>
+              <td>22</td>
+              <td>4</td>
+              <td>4</td>
+            </tr>
+            <tr>
+              <td>RSV (in AUD)</td>
+              <td>266,835</td>
+              <td>259,000</td>
+              <td>93,381</td>
+              <td>109,823</td>
+            </tr>
+        </table>
+        
+      </div>
+
+      <div>
+        
+        <table id="customers" style="width: 290px !important;margin-top: 10px;">
+          <tr>
+            <th colspan="2" style="text-align: center;">Test Window Selection</th>
+          </tr>
+          <tr>
+            <td>Pre Test</td>
+            <td>01, Jun 2019 to 30, Jun 2019</td>
+          </tr>
+          <tr>
+            <td>Test</td>
+            <td>01, Jul 2019 to 04, Aug 2019</td>
+          </tr>
+        </table>
+        
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="column" style="width: 7%;padding-right: 0;">
+      <img src="../img/control_store.svg" style="height: 160px;width: 30px;">
+    </div>
+
+    <div class="column" style="width: 50%;padding-left: 0;">
+      <p><strong>Default Matching Criteria to get Control Stores</strong></p>
+      
+      <ul style="padding-left: 5px;">
+        <li>Channel</li>
+        <li>Territory</li>
+        <li>Baycount Segment</li>
+        <li>Sales Potential Segment</li>
+      </ul>
+      <p><strong>Additional Criteria selected by the user</strong></p>
+      <ul style="padding-left: 5px;">
+        <li>RSV Year 2</li>
+        <li>RSV Lift</li>
+        <li>SKU Count Mean Overall</li>
+        <li>Mints Std</li>
+      </ul>
+      
+    </div>
+    
+    <div class="column" style="width: 40%;">
+      
+      <h3 style="font-size: 10px;text-align: center;margin: 0;">Summary of Selected Control Stores Vs Test  Stores</h3>
+      <table id="customers" style="width: 290px !important;margin-top: 10px;">
+          <tr>
+            <th>Store characteristics</th>
+            <th>Test mean</th>
+            <th>Control mean</th>
+            <th>Test std dev</th>
+            <th>Control std dev</th>
+          </tr>
+          <tr>
+            <td>Baycount</td>
+            <td>22</td>
+            <td>22</td>
+            <td>3</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>RSV (in AUD)</td>
+            <td>266,818</td>
+            <td>263,686</td>
+            <td>97,722</td>
+            <td>96,952</td>
+          </tr>
+      </table>
+      
+    </div>
+  </div>
+
+  <div class="row">
+     <div class="column" style="width: 7%;padding-right: 0;padding-bottom: 0;padding-top: 0;">
+        <img src="../img/test_measure.svg" style="height: 270px;width: 30px;">
+     </div>
+
+     <div class="column" style="width: 90%;margin-top: 5px;">
+       <div class="row" style="line-height: 0.5;">
+        <div class="row">
+          <div class="column" style="width: 33.33% !important;">Target Variable       : RSV</div>
+          <div class="column" style="width: 33.33% !important;">Lift\Drop             : -0.38%</div>
+          <div class="column" style="width: 33.33% !important;">Incremental RSV (AUD) : -380,000</div>
+        </div>  
+      
+        <div class="row" style="padding-bottom: 5px;">
+          <div class="column" style="width: 33.33% !important;">Incremental MAC (AUD) : -71,938</div>
+          <div class="column" style="width: 33.33% !important;">Cost Impact (AUD)     : 50,000</div>
+          <div class="column" style="width: 33.33% !important;">Earnings (AUD)        : -121,938</div>
+        </div>
+       </div>
+
+       <div class="row">
+         <div class="column pre_vs_post_comp" style="width: 55%;padding-left: 0;">
+          <h3 class="chart_title">Pre Vs Post Period Comparison</h3>
+          <div id='container' style="display: none;border: 1px solid;"></div>
+         </div>
+         <div class="column" style="width: 40%;">
+          <h3 style="font-size: 10px;text-align: center;margin-top: 25px;">Summary Results of the Test Conducted</h3>
+          <table id="customers" style="width: 290px !important;margin-top: 10px;height: 130px;">
+            <tr>
+              <th>Parameter</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>Test Vs Control Stage</td>
+              <td>-0.38%</td>
+            </tr>
+            <tr>
+              <td>Breakeven Lift</td>
+              <td>0.26%</td>
+            </tr>
+            <tr>
+              <td>Probability (Lift > Breakeven)</td>
+              <td>20%</td>
+            </tr>
+            <tr>
+              <td>Decision</td>
+              <td>Do not implement the change</td>
+            </tr>
+        </table>
+         </div>
+       </div>
+
+     </div>
+  </div>
+
+  <div class="row">
+    
+    <div class="column probabiltychart" style="width: 60%;padding: 0 5px;">
+      <h3 style="    font-size: 10px;
+      text-align: center;
+      position: absolute;
+      width: 340px;">Heatmap Plot of estimated probability to implement the RTM change</h3> 
+      <div id="container1" ></div>
+      <!-- <script type="text/javascript">
+ 
+  
+      $( document ).ready(function() {
+        setTimeout(function() {
+          save_chart1($('#container1').highcharts());
+        }, 5000);
+      });
+      </script> -->
+
+    </div> 
+
+    <div class="column" style="width: 40%;padding: 0 5px;">
+      <h3 style="font-size: 10px;text-align: center;">Final Decision on Rolling out to the market</h3>
+      
+        <img src="../img/nogo.jpg" style="height: 85px;margin-top: 10px;    margin-left: 50px;">
+      
+    </div>
+
+    <div style="position: absolute;
+    margin-top: 60px;margin-left: 25px;
+    z-index: 9;">
+      <img src="../img/legends.svg" style="width: 95%;">
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    EXPORT_WIDTH = 1000;
+    function save_chart(chart) {
+        var render_width = EXPORT_WIDTH;
+        var render_height = render_width * 400 / 800
+  
+        // Get the cart's SVG code
+        var svg = chart.getSVG({
+            exporting: {
+                sourceWidth: 800,
+                sourceHeight: 400
+            }
+        });
+  
+        // Create a canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'prepost';
+        canvas.height = render_height;
+        canvas.width = render_width;
+        document.body.appendChild(canvas);
+  
+        // Create an image and draw the SVG onto the canvas
+        var image = new Image;
+        image.onload = function() {
+            canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+        };
+        image.src = 'data:image/svg+xml;base64,' + window.btoa(svg);
+        $("#container").remove()
+        $("#prepost").addClass('canvaschrt')
+        $(".canvaschrt").css("width", "350px");
+        $(".canvaschrt").css("height", "220px");
+        // $("canvas").css("border", "1px solid");
+        $('.canvaschrt').appendTo(".pre_vs_post_comp")
+    }
+  
+    var yaxis_label = ['Target variable (Weekly RSV in AUS)']
+    var predata = {'controlstorePre': 5231.82, 'testStorePre': 5202.72}
+    var postdata = {'controlstorePost': 5148.38, 'testStorePost': 5100.43}
+  
+    $(function() {
+      // setTimeout(function() {
+        $('#container').highcharts({
+      exporting: {
+          enabled: false
+      },
+      title: {
+          text: ''
+      },
+      subtitle: {
+          text: ''
+      },
+      chart: {
+          type: 'column',
+        height: 400,
+      },
+          plotOptions: {
+            series: {
+              animation: false,
+              enableMouseTracking: false,
+              shadow: false,
+              borderWidth: 0,
+              // dataLabels: {
+              //   enabled: true,
+              //   format: '{point.assignee}',
+              //   x: 80,
+              //   y: -100
+              // }
+            }
+          },
+            yAxis: {
+              title: {
+                text: yaxis_label[0]
+              },
+              maxPadding: 0.6
+            },
+            xAxis: {
+              categories: ['Control Stores', 'Test Stores']
+            },
+            credits: {
+              enabled: false
+            },
+            series: [
+              {
+              name: 'Pre-Test',
+              color: '#ff70b0',
+              data: [
+                {
+                y: predata.controlstorePre,
+                assignee: 0
+                },
+                {
+                y: predata.testStorePre,
+                assignee: 0
+                }
+                ],
+                type: undefined
+                },
+                {
+                name: 'Post-Test',
+                data: [
+                {
+                y: postdata.controlstorePost,
+                assignee: ''
+                },
+                {
+                y: postdata.testStorePost,
+                assignee: ''
+                }
+              ],
+              type: undefined
+              }
+            ]
+          });
+          save_chart($('#container').highcharts());
+        // }, 3000);
+      });
+
+function save_chart1(chart) {
+      var render_width = EXPORT_WIDTH;
+      var render_height = render_width * 400 / 800
+
+  // Get the cart's SVG code
+  var svg = chart.getSVG({
+      exporting: {
+          sourceWidth: 800,
+          sourceHeight: 400
+      }
+  });
+
+  // Create a canvas
+  var canvas = document.createElement('canvas');
+  canvas.id = 'probability_chart';
+  canvas.height = render_height;
+  canvas.width = render_width;
+  document.body.appendChild(canvas);
+
+  // Create an image and draw the SVG onto the canvas
+  var image = new Image;
+  image.onload = function() {
+      canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+  };
+  image.src = 'data:image/svg+xml;base64,' + window.btoa(svg);
+  $("#container1").remove()
+  $("#probability_chart").addClass('canvaschrt1')
+  // $(".canvaschrt").css("margin-top", "-125px");
+  $(".canvaschrt1").css("width", "350px");
+  $(".canvaschrt1").css("height", "200px");
+  $('.canvaschrt1').appendTo(".probabiltychart")
+}
+
+var colors = [];
+colors[0] = 'green';
+colors[1] = 'orange';
+colors[2] = 'red';
+var probabilty_value = 20
+
+$(function() {
+// setTimeout(function() {
+$('#container1').highcharts({
+    exporting: {
+        enabled: false
+    },
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
+    chart: {
+      type: 'bar',
+        height: 400,
+      spacingTop: 210,
+      spacingRight: 80,
+      spacingLeft: 80
+    },
+      yAxis: {
+        tickInterval: 5,
+                min: 0,
+                max: 100,
+                gridLineWidth: 0,
+                title: {
+                  text: 'Probability Scale'
+                },
+                labels: {
+                  formatter: function() {
+                    if (this.value == 0 || this.value == 60 || this.value == 85 || this.value == 100) {
+                      return this.value + '%';
+                    }
+                  }
+                }
+        },
+      xAxis: {
+        categories: [],
+        visible: false
+      },
+      credits: {
+        enabled: false
+      },
+      colors: colors,
+      legend: 
+      {
+        enabled: false,
+        reversed: true
+      },
+      plotOptions: {
+              series: {
+                stacking: 'normal',
+                pointWidth: 35
+              }
+            },
+      series: [
+          {
+            name: '',
+            data: [
+              {
+                y: 15,
+                tip: ''
+              }
+            ]
+          },
+          {
+            name: '',
+            data: [
+              {
+                y: 25,
+                tip: ''
+              }
+            ]
+          },
+          {
+            name: '',
+            data: [
+              {
+                y: 60,
+                tip: ''
+              }
+            ]
+          },
+          {
+            name: 'indicator',
+            data: [probabilty_value],
+            type: 'scatter',
+            color: '#0000a0',
+            marker: {
+              symbol: 'circle'
+            }
+          }
+        ]
+    });
+    save_chart1($('#container1').highcharts());
+  // }, 2000);
+  
+});
+  
+    $( document ).ready(function() {
+      
+        
+            
+    });
+  
+  </script>
+
+<div class="row">
+  <p style="font-weight: 600;margin: 0;font-size: 10px;">Comments</p>
+  <textarea rows="2" cols="50" name="comment" form="usrform" style="width: 700px;"></textarea>
+</div>
+
+<div class="row">
+  <div class="column" style="padding: 0;line-height: 0px;">
+    <p>Downloaded on : 2021-1-16 11:56:41</p>
+  </div>
+  <div class="column" style="text-align: right;padding: 0;line-height: 0px;">
+    <p>Copyright © 2019 RTM Fast — Confidential</p>
+  </div>
+</div>
+
+</body>
+</html>

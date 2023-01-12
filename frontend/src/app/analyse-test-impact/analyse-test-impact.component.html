@@ -1,0 +1,275 @@
+<perfect-scrollbar [style.height.px]="height2" style="width:100%;overflow-x: hidden;" *ngIf="showAnalyseIp">
+  <div class="route_container_top" #progressContent id="progressContent" *ngIf="showAnalyseIp">
+    <div class="row" style="overflow-x: hidden;">
+      <div class="col-md-3 col-lg-3 col-sm-12 col-xl-3">
+        <mat-card class="testcard">
+          <mat-card-content class="mat-card_content">
+            <span class="first_heading">Tips & Tricks</span>
+            <div class="image_div"><img class="image_size" src="assets/images/Tips&Tricks.png" alt="sort"/></div>
+            <hr/>
+            <ul id="Create_test">
+              <li>
+                <span class="second_p">The user can do a compliance analysis on the test-control stores before deciding on the final test-control pairs on which the test impact analysis can be performed.</span>
+              </li>
+              <li>
+                <span class="second_p">The user can analyze for a test from the tool or analyze for a test that was already conducted.</span>
+              </li>
+              <li>
+                <span class="second_p">Analyze test impact summarizes whether the test has a positive or negative impact on the market.</span>
+              </li>
+              <hr/>
+              <!--              <li *ngFor="let tip of tipsDataStr">-->
+              <!--                <span class="second_p">{{tip}}</span>-->
+              <!--              </li>-->
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="col-md-9 col-lg-9 col-sm-12 col-xl-9 width_grid">
+        <mat-card *ngIf="showDetails">
+          <mat-card-content class="mat-card_content">
+            <div class="header_content">Test Details to Analyse</div>
+            <hr/>
+            <div>
+              <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <div class="form-group">
+                    <label id="lbl_test_details_test_name" class="label_change">Select Test Name </label>
+                    <ngx-select [allowClear]="false" placeholder="Select Test Name" [(ngModel)]="testNamesDD"
+                                [items]="testNames" name="TypeTest"
+                                (selectionChanges)="selectTestName($event)">
+                    </ngx-select>
+                  </div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-sm-12">
+                  <div class="form-group">
+                    <label id="lbl_test_details_test_name" class="label_change">Description </label>
+                    <textarea type="text" id="txt_test_details_brief_description" class="md-textarea form-control"
+                              name="Description" placeholder="Enter Description" disabled="True"
+                              [(ngModel)]="testDetailsValue.description">
+                  </textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <label id="lbl_test_details_pre_test" class="label_change">Pre-Test Window</label>
+                  <input id="txt_test_details_pre_test" placeholder="From - To" bsDaterangepicker
+                         triggers="keydown click"
+                         class="form-control" [(ngModel)]="dateRangePre" autocomplete="off" disabled="True"
+                         [bsConfig]="{ containerClass : 'theme-default', rangeInputFormat: 'DD MMM, YYYY' }" required>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <label id="lbl_test_details_pre_test" class="label_change">Post-Test Window</label>
+                  <input id="txt_test_details_pre_test" placeholder="From - To" bsDaterangepicker
+                         triggers="keydown click"
+                         class="form-control" [(ngModel)]="dateRangePost" autocomplete="off" disabled="True"
+                         [bsConfig]="{ containerClass : 'theme-default', rangeInputFormat: 'DD MMM, YYYY' }" required>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 1rem;">
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <div class="form-group" *ngIf="testApplicabilityFields[0].is_show" >
+                    <label class="label_change">{{testApplicabilityFields[0].banner}}</label>
+                    <ng-multiselect-dropdown
+                      id="bannerDropdown"
+                      [data]="testDetailsValue.banner"
+                      (onSelectAll)="onMetricSelectAll($event)"
+                      [settings]="dropdownSettingsbanner"
+                      [(ngModel)]="Banner"
+                      disabled="True"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <div class="form-group" *ngIf="testApplicabilityFields[2].is_show">
+                    <label class="label_change">{{testApplicabilityFields[2].territory}}</label>
+                    <ng-multiselect-dropdown
+                      id="territoryDropdown"
+                      [data]="testDetailsValue.territory"
+                      (onSelectAll)="onMetricSelectAll($event)"
+                      [settings]="dropdownSettingsbanner"
+                      [(ngModel)]="Territory"
+                      disabled="True"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <div class="form-group" *ngIf="testApplicabilityFields[1].is_show">
+                    <label class="label_change">{{testApplicabilityFields[1].segment}}</label>
+                    <ng-multiselect-dropdown
+                      id="segmentDropdown"
+                      [data]="testDetailsValue.segment"
+                      (onSelectAll)="onMetricSelectAll($event)"
+                      [settings]="dropdownSettingsbanner"
+                      [(ngModel)]="Segment"
+                      disabled="True"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <div class="form-group" *ngIf="testApplicabilityFields[3].is_show">
+                    <label class="label_change">{{testApplicabilityFields[3].storegrid}}</label>
+                    <ng-multiselect-dropdown
+                      id="storegridDropdown"
+                      [data]="testDetailsValue.storegrid"
+                      (onSelectAll)="onMetricSelectAll($event)"
+                      [settings]="dropdownSettingsbanner"
+                      [(ngModel)]="StoreGrid"
+                      disabled="True"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                  <div class="form-group" *ngIf="testApplicabilityFields[4].is_show" style="pointer-events: none;">
+                    <label class="label_change">{{testApplicabilityFields[4].category}}</label>
+                    <ng-multiselect-dropdown
+                      id="categoryDropdown"
+                      [data]="testDetailsValue.category"
+                      (onSelectAll)="onMetricSelectAll($event)"
+                      [settings]="dropdownSettingsbanner"
+                      [(ngModel)]="Category"
+                      style="border-radius: 0;" disabled="True"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12">
+                </div>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="showComparisonSummary">
+          <mat-card-content class="mat-card_content">
+            <div class="header_content">Test - Control comparison summary</div>
+            <hr/>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</perfect-scrollbar>
+
+<perfect-scrollbar [style.height.px]="height" style="width:100%;overflow-x: hidden;" *ngIf="showAnalyseOp">
+  <div class="route_container_top route_container_right" #progressContent id="progressContent" *ngIf="showAnalyseOp">
+    <div class="row" id="overflowHidden">
+      <div  *ngIf="showAnalyseOpSide" class="col-md-3 col-lg-3 col-sm-12 col-xl-3" style="padding-right: 0.625rem !important ;">
+        <mat-card>
+          <mat-card-content class="mat-card_content">
+            <div class="control_summary" (click)="showImpactSummary();changeActive('Impact')"
+                 [ngClass]="{'active_div': generate_store === 'Impact', 'inactive_div': generate_store !== 'Impact'}">
+              <span
+                [ngClass]="{'active_span control_span_active': generate_store === 'Impact', 'control_span_inactive': generate_store !== 'Impact'}"></span>Impact
+              Summary
+            </div>
+            <div class="control_summary" (click)="showPercentageChange();changeActive('Percentage')"
+                 [ngClass]="{'active_div': generate_store === 'Percentage', 'inactive_div': generate_store !== 'Percentage'}">
+              <span
+                [ngClass]="{'active_span control_span_active': generate_store === 'Percentage', 'control_span_inactive': generate_store !== 'Percentage'}"></span>Percentage
+              change
+            </div>
+            <div class="control_summary" (click)="showTestMeasurementResults();changeActive('Measurement')"
+                 [ngClass]="{'active_div': generate_store === 'Measurement', 'inactive_div': generate_store !== 'Measurement'}">
+              <span
+                [ngClass]="{'active_span control_span_active': generate_store === 'Measurement', 'control_span_inactive': generate_store !== 'Measurement'}"></span>Test
+              measurement
+              results
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="route_container_top">
+          <mat-card class="testcard">
+            <mat-card-content class="mat-card_content">
+              <span class="first_heading">Insights</span>
+              <div class="image_div" style="text-align: center;"><img class="image_size"
+                                                                      src="assets/images/Insights.png" alt="sort"/>
+              </div>
+              <p class="second_p">The overall test impact shows that the change has a positive impact on the
+                market
+              </p>
+              <p class="second_p pt-3">Note: p-value lower than 0.05 indicate selected test stores perform
+                significantly different that the matched control stores based on measurement metrics selected.</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div *ngIf="showImpactSummaryView" class="col-md-9 col-lg-9 col-sm-12 col-xl-9 width_grid">
+        <app-impact-summary [testDetailsValue]="testDetailsValue"></app-impact-summary>
+      </div>
+      <div *ngIf="showPercentageChangeView" class="col-md-9 col-lg-9 col-sm-12 col-xl-9 width_grid">
+        <app-percentage-change [testDetailsValue]="testDetailsValue"></app-percentage-change>
+      </div>
+      <div *ngIf="showTestMeasurementResultsView" [ngClass]="{'col-md-9 col-lg-9 col-sm-12 col-xl-9 width_grid': showAnalyseOpSide, 'col-md-12 col-lg-12 col-sm-12 col-xl-12 width_grid' : !showAnalyseOpSide }">
+        <app-test-measurement-results (callFullScreen) = "callFullScreen()" [testDetailsValue]="testDetailsValue"></app-test-measurement-results>
+      </div>
+
+      <div *ngIf="showKeyDriversOfLiftView" class="col-md-9 col-lg-9 col-sm-12 col-xl-9 width_grid">Key drivers of lift
+        works!
+      </div>
+    </div>
+  </div>
+</perfect-scrollbar>
+
+<div #footer class="row pb-2" *ngIf="!showAnalyseOp">
+  <mat-card class="analyse-button-area">
+    <div class="floatRight">
+      <button class="button-color-enabled-background" mat-button (click)="callAnalyse()">Analyse</button>
+    </div>
+  </mat-card>
+</div>
+
+<div #footer class="row pb-2" *ngIf="showAnalyseOp">
+  <mat-card class="cardOp">
+    <div class="floatRight">
+      <button class="button-color-enabled-background mr-2 font_size_button" mat-button
+              (click)="callDownloadReport(downloadReportDialog)">Download Report
+      </button>
+      <button *ngIf="generate_store != 'Measurement'" class="button-color-enabled-background" mat-button
+              (click)="nextButton()">Next
+      </button>
+    </div>
+  </mat-card>
+</div>
+
+<ng-template #downloadReportDialog>
+  <h2 color="primary" mat-dialog-title>Download report</h2>
+  <mat-dialog-content>
+    <br/>
+    <span style="font-family: Mulish_bold;font-size: 0.813rem;">Download report for</span>
+    <ng-multiselect-dropdown
+      name="city"
+      [placeholder]="'Select'"
+      [data]="banner"
+      [settings]="dropdownSettings"
+      [(ngModel)]="reportSelect"
+      style="font-family: Mulish_bold;font-size: 0.813rem;">
+    </ng-multiselect-dropdown>
+    <br/>
+    <!-- <span style="font-family: Mulish_regular;font-size: 0.813rem;">Download as&nbsp;&nbsp;</span><button style="font-size: 0.688rem;padding: 0px;" mat-button>.PDF</button><button mat-button style="font-size: 0.688rem;">.XLS</button><button mat-button style="font-size: 0.688rem;">.PPT</button> -->
+    <span style="font-family: Mulish_regular;font-size: 0.813rem;">Download as&nbsp;&nbsp;</span>
+    <mat-button-toggle-group class="report-format" [(ngModel)]="reportFormat">
+      <mat-button-toggle class="report-format" style="border-radius: 4px;margin-right: 7px;" value="pdf">.PDF
+      </mat-button-toggle>
+      <mat-button-toggle class="report-format" style="border-radius: 4px;margin-right: 7px;" value="xls">.XLS
+      </mat-button-toggle>
+      <mat-button-toggle class="report-format" style="border-radius: 4px;" value="ppt">.PPT</mat-button-toggle>
+    </mat-button-toggle-group>
+  </mat-dialog-content>
+  <hr/>
+  <mat-dialog-actions style="float: right;padding-top: 0.5rem;margin-bottom: -5px">
+    <button class="button-color-notFocused-background" (click)="closeDRModal()" mat-button>Cancel</button>
+    <button class="button-color-enabled-background" (click)="downloadReport()" mat-button>Download
+    </button>
+  </mat-dialog-actions>
+</ng-template>

@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="20000" name="pdfkit-javascript-delay"/>
+    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../js/highcharts.js"></script>
+    <script src="../js/series-label.js"></script>
+    <script src="../js/exporting.js"></script>
+    <script src="../js/export-data.js"></script>
+    <script>
+  'use strict';
+  (function(setLineDash) {
+  CanvasRenderingContext2D.prototype.setLineDash = function() {
+  if(!arguments[0].length){
+      arguments[0] = [1,0];
+  }
+  // Now, call the original method
+  return setLineDash.apply(this, arguments);
+  };
+  })(CanvasRenderingContext2D.prototype.setLineDash);
+  Function.prototype.bind = Function.prototype.bind || function (thisp) {
+  var fn = this;
+  return function () {
+  return fn.apply(thisp, arguments);
+  };
+  };
+
+    </script>
+    <style>
+  .container {
+  width: 320px;
+  margin: 0 auto;
+  display: inline-block;
+}
+.text-overflow{
+  max-width: 100px;
+    overflow: hidden;
+    margin-top: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+   body {
+      font-family: Arial;
+      color: rgb(20, 17, 17);
+   }
+
+    #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 365px;
+    font-size: 7px;
+    }
+
+    #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 5px;
+    }
+
+    #customers tr:nth-child(even){background-color: #e7e7f0;}
+    #customers tr:nth-child(odd){background-color: #cbcbdf;}
+
+    #customers tr:hover {background-color: #ddd;}
+
+    #customers th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: left;
+    background-color: #0000a0;
+    color: white;
+    }
+
+    #test_measurement {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    font-size: 7px;
+    }
+
+    #test_measurement td, #test_measurement th {
+    border: 1px solid #ddd;
+    padding: 5px;
+    }
+
+    #test_measurement tr:nth-child(even){background-color: #e7e7f0;}
+    #test_measurement tr:nth-child(odd){background-color: #cbcbdf;}
+
+    #test_measurement tr:hover {background-color: #ddd;}
+
+    #test_measurement th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: left;
+    background-color: #0000a0;
+    color: white;
+    }
+
+    * {
+  box-sizing: border-box;
+}
+
+.row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+
+.column {
+  float: left;
+  width: 48%;
+  padding: 5px;
+  font-size: xx-small;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+ul li:before
+{
+  content:'\2713';
+  display:inline-block;
+  color:red;
+  padding:0 6px 0 0;
+  }
+ul li{list-style-type:none;font-size:1em;}
+
+#customers_1 {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 360px;
+    }
+
+    #customers_1 td, #customers_1 th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    }
+
+    #customers_1 tr:nth-child(even){background-color: #e7e7f0;}
+    #customers_1 tr:nth-child(odd){background-color: #cbcbdf;}
+
+    #customers_1 tr:hover {background-color: #ddd;}
+
+    #customers_1 th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0000a0;
+    color: white;
+    }
+    .header{
+      width: 97% !important;
+    border: 1px solid #0000a0;
+    background-color: #0000a0;
+    color: #E6A000;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 25px;
+    }
+
+    .head_title{
+      font-size: 14px;
+    font-weight: 500;
+    }
+
+    .chart_title{
+      font-size: 10px;
+      text-align: center;
+      margin-top: 10px;
+      margin-left: 85px;
+      position: absolute;
+    }
+    .chart_title_new{
+      font-size: 10px;
+      text-align: center;
+      margin-top: 10px;
+      margin-left: 55px;
+      position: absolute;
+    }
+.columngraph {
+  float: left;
+}
+
+    </style>
+</head>
+<body>
+<!--Column Header-->
+<div class="row">
+    <div class="column header">
+        <div class="head_title">
+            <img style="width: 4%;margin-right: 5px;float: left;border-radius: 2px;" src="../img/{{config_col['report_generate']['common']['flag_name']}}">RTM Fast {{config_col['report_generate']['common']['region_name']}} - TEST & LEARN SUMMARY REPORT
+        </div>
+    </div>
+</div>
+<!--Test Configuration-->
+<div>
+  {% if is_impact == true %}
+    <div class="row">
+   <div class="column" style="width: 5%;padding-right: 0;">
+      <img src="../img/test_config.svg" style="height: 260px;width: 30px;">
+   </div>
+   <div class="column" style="width: 50%;padding-left: 2px;">
+      <table id="customers">
+        <tr>
+          <th colspan="3" style="text-align: center;">Test Design</th>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td colspan="2">{{ test_name }}</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td colspan="2">{{ test_type }}</td>
+        </tr>
+        <tr>
+          <td>Target Variable</td>
+          <td colspan="2">{{ target_variable }}</td>
+        </tr>
+        <tr>
+          <td>Test Description</td>
+          <td colspan="2" class="text-overflow">{{ test_desc }}</td>
+        </tr>
+        <tr>
+          <td rowspan="{{rowSpan}}">Selected Test Store Characteristics</td>
+          <td>{{ config_col['heading_names']['banner'] }} </td>
+          <td>{{ channel }}</td>
+        </tr>
+        <tr>
+          <td>{{ config_col['heading_names']['territory'] }}</td>
+          <td>{{ territory }}</td>
+        </tr>
+        <tr>
+          <td rowspan="2">Test Window Selection</td>
+          <td>Pre Test Window</td>
+          <td>{{ pre_test_start }} to {{ pre_test_end }}</td>
+        </tr>
+        <tr>
+          <td>Test Window</td>
+          <td>{{ post_test_start }} to {{ post_test_end }}</td>
+        </tr>
+      </table>
+    </div>
+   <div class="column" style="width: 30%;padding-left: 2px;margin-left:16px">
+     <table id="customers" style="width:275px">
+        <tr>
+          <th colspan="3" style="text-align: center;">Test Parameters</th>
+        </tr>
+        <tr>
+          <td>Confidence Level</td>
+          <td colspan="2">{{ confidence_level }} %</td>
+        </tr>
+        <tr>
+          <td>Margin of Error</td>
+          <td colspan="2">{{ margin_of_err }} %</td>
+        </tr>
+        <tr>
+          <td>Population Size</td>
+          <td align="center">{{population_size}}</td>
+          <td colspan="2">
+            {% for k, v in t_population_store_split.items()  %}
+              <div>{{ k }} <span style="float:right">{{v}}</span></div>
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <td>Sample size</td>
+          <td align="center">{{sample_size}}</td>
+          <td>
+            {% for k, v in t_test_store_split.items()  %}
+              <div style="padding-top:5px">{{ k }} <span style="float:right">{{v}}</span></div>
+            {% endfor %}
+          </td>
+        </tr>
+      </table>
+      <div style="padding-top: 8px">
+        <table id="customers" style="width:275px">
+          <tr>
+            <th colspan="3" style="text-align: center;">Break Even Lift Calculation</th>
+          </tr>
+          <tr>
+            <td>Cost Impact</td>
+            <td colspan="2">AUD {{ cost}}</td>
+          </tr>
+          <tr>
+            <td>Annual {{target_variable}}</td>
+            <td colspan="2">AUD {{ current_rsv}}</td>
+          </tr>
+          <tr>
+            <td>Breakeven Lift</td>
+            <td colspan="2">{{ breakeven_lift }} %</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+<!--Control Configuration-->
+<div>
+  {% if is_percentageChange == true %}
+    <div class="row">
+    <div class="column" style="width: 5%;padding-right: 0;">
+      <img src="../img/control_store.svg" style="height: 230px;width: 30px;">
+    </div>
+     <div class="column" style="width: 55%;padding-left:2px">
+      {% if region_name == 'DEMO' %}
+        <table id="customers" style="width: 365px !important;margin-top: 10px;">
+        <tr>
+          <th colspan="5" style="text-align: center;">Test vs Population Comparsion</th>
+        </tr>
+          <tr>
+            <td>Store characteristics</td>
+            <td>Test mean</td>
+            <td>Population mean</td>
+            <td>Test std dev</td>
+            <td>Population std dev</td>
+          </tr>
+          <tr>
+            <td>RSV (in {{config_col['heading_names']['currency']}})</td>
+            <td>{{ test_store_summary['rsv']['test_rsv_mean'] }}</td>
+            <td>{{ test_store_summary['rsv']['test_rsv_pop_mean'] }}</td>
+            <td>{{ test_store_summary['rsv']['test_rsv_test_stdmean'] }}</td>
+            <td>{{ test_store_summary['rsv']['test_rsv_pop_stdmean'] }}</td>
+          </tr>
+      </table>
+      {% endif %}
+      <div style="padding-top:2px">
+        {% if region_name == 'DEMO' %}
+          <table id="customers" style="width: 365px !important;margin-top: 10px;">
+            <tr>
+               <th colspan="5" style="text-align: center;">Test vs Control Comparsion</th>
+            </tr>
+            <tr>
+              <td>Store characteristics</td>
+              <td>Test mean</td>
+              <td>Control mean</td>
+              <td>Test std dev</td>
+              <td>Control std dev</td>
+            </tr>
+            <tr>
+              <td>RSV (in {{config_col['heading_names']['currency']}})</td>
+              <td>{{ control_store_summary['rsv']['contrl_summary_rsv_mean'] }}</td>
+              <td>{{ control_store_summary['rsv']['contrl_summary_rsv_pop_mean'] }}</td>
+              <td>{{ control_store_summary['rsv']['contrl_summary_rsv_test_stdmean'] }}</td>
+              <td>{{ control_store_summary['rsv']['contrl_summary_rsv_pop_stdmean'] }}</td>
+            </tr>
+        </table>
+        {% endif %}
+      </div>
+      </div>
+    <div class="column" style="width: 40%;padding-left: 0;">
+      <p><strong>Store Feature to match to the population</strong></p>
+      <ul style="padding-left: 5px;">
+        {% for k in store_feature  %}
+            <li>{{k}}</li>
+        {% endfor %}
+      </ul>
+      <p><strong>Matching Criteria to select Control Stores</strong></p>
+      <ul style="padding-left: 5px;">
+        {% for k in matching_criteria  %}
+            <li>{{k}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+</div>
+<!--Test Measurement-->
+<div>
+  {% if is_testmeasurement == true %}
+  <div class="row">
+  <div class="column" style="width: 5%;padding-right: 0;">
+      <img src="../img/test_measure.svg" style="width: 30px;">
+  </div>
+  <div class="column" style="width:90%;padding-top: 1rem">
+    <div style="color:#1515a8">Estimated Earnings Based on Test Measurement</div>
+    <div>
+      <table id="test_measurement">
+        <tr>
+          <td>Target Variable</td>
+          <td>{{ target_variable }}</td>
+          <td>Lift\Drop </td>
+          <td>{{ test_vs_control_change }}%</td>
+          <td>Incremental RSV ({{config_col['heading_names']['currency']}})</td>
+          <td>{{ incremental_rsv }}</td>
+        </tr>
+        <tr>
+          <td>Incremental MAC ({{config_col['heading_names']['currency']}})</td>
+          <td>{{ incremental_mac }}</td>
+          <td>Cost Impact ({{config_col['heading_names']['currency']}})</td>
+          <td>{{ cost_impact }}</td>
+          <td>Earnings ({{config_col['heading_names']['currency']}})</td>
+          <td>{{ earnings }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="column" style="margin:8px 0px 0px 0px; border-top: 2px solid #1515a8;width:90%"></div>
+  <div class="column" style="width:90%">
+    <div class="columngraph lineChartPeriod" style="padding-left: 0;">
+      <div id="lineprePeriod"></div>
+    </div>
+    <div class="columngraph postlineChart" style="padding-left: 0;margin-left:14px">
+      <div id="linepostPeriod"></div>
+    </div>
+  </div>
+  <div class="column" style="width:90%;padding:0px">
+    <div class="row">
+        <div class="column pre_vs_post_comp" style="width: 55%;padding: 0 5px;">
+            <h3 class="chart_title">Pre Vs Post Period Comparison</h3>
+            <div id='container' style="display: none;border: 1px solid;"></div>
+           </div>
+        <div class="column" style="width: 40%;">
+            <h3 style="font-size: 10px;text-align: center;margin-top: 25px;">Summary Results of the Test Conducted</h3>
+            <table id="customers" style="width: 290px !important;margin-top: 10px;height: 130px;">
+              <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+              </tr>
+              <tr>
+                <td>Test Vs Control Stage</td>
+                <td>{{ test_vs_control_change }}%</td>
+              </tr>
+              <tr>
+                <td>Breakeven Lift</td>
+                <td>{{ breakeven_lift }}%</td>
+              </tr>
+              <tr>
+                <td>Probability (Lift > Breakeven)</td>
+                <td>{{ probabilty }}%</td>
+              </tr>
+              <tr>
+                <td>Decision</td>
+                <td>{{ decision }}</td>
+              </tr>
+          </table>
+         </div>
+      </div>
+  </div>
+</div>
+  <div class="row" style="margin-top:10px">
+    <div class="column" style="width: 5%;padding-right: 0;">
+      <img src="../img/test_measure2.svg" style="width: 30px;">
+    </div>
+    <div class="column" style="width:90%;padding:0px">
+    <div class="row">
+      <div class="column probabiltychart" style="width: 60%;padding: 10px 5px 0px 5px;">
+      <h3 style="    font-size: 10px;
+      text-align: center;
+      position: absolute;
+      width: 340px;">Heatmap Plot of estimated probability to implement the RTM change</h3>
+      <div id="container1" ></div>
+    </div>
+      <div class="column" style="width: 40%;padding: 10px 5px 0px 5px;">
+      <h3 style="font-size: 10px;text-align: center;">Final Decision on Rolling out to the market</h3>
+      {% if probabilty >= 85 %}
+        <img src="../img/go.jpg" style="height: 85px;margin-top: 10px;    margin-left: 50px;">
+      {% elif probabilty >= 60 and probabilty < 85 %}
+        <img src="../img/caution.png" style="height: 85px;margin-top: 10px;    margin-left: 50px;">
+      {% else %}
+        <img src="../img/nogo.jpg" style="height: 85px;margin-top: 10px;    margin-left: 50px;">
+      {% endif %}
+    </div>
+      <div style="position: absolute;margin-top: 38px;margin-left: 25px;z-index: 9;">
+      <img src="../img/legends.svg" style="width: 95%;">
+    </div>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+</div>
+
+
+<script type="text/javascript">
+    EXPORT_WIDTH = 1000;
+    function save_chart(chart) {
+        var render_width = EXPORT_WIDTH;
+        var render_height = render_width * 400 / 800
+
+        // Get the cart's SVG code
+        var svg = chart.getSVG({
+            exporting: {
+                sourceWidth: 800,
+                sourceHeight: 400
+            }
+        });
+
+        // Create a canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'prepost';
+        canvas.height = render_height;
+        canvas.width = render_width;
+        document.body.appendChild(canvas);
+
+        // Create an image and draw the SVG onto the canvas
+        var image = new Image;
+        image.onload = function() {
+            canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+        };
+        image.src = 'data:image/svg+xml;base64,' + window.btoa(svg);
+        $("#container").remove()
+        $("#prepost").addClass('canvaschrt')
+        $(".canvaschrt").css("width", "350px");
+        $(".canvaschrt").css("height", "220px");
+        // $("canvas").css("border", "1px solid");
+        $('.canvaschrt').appendTo(".pre_vs_post_comp")
+    }
+
+    var yaxis_label = {{yaxis_text}}
+    var predata = {{pre_data}}
+    var postdata = {{post_data}}
+
+    $(function() {
+      // setTimeout(function() {
+        $('#container').highcharts({
+      exporting: {
+          enabled: false
+      },
+      title: {
+          text: ''
+      },
+      subtitle: {
+          text: ''
+      },
+      chart: {
+          type: 'column',
+        height: 400,
+      },
+          plotOptions: {
+            series: {
+              animation: false,
+              enableMouseTracking: false,
+              shadow: false,
+              borderWidth: 0,
+              // dataLabels: {
+              //   enabled: true,
+              //   format: '{point.assignee}',
+              //   x: 80,
+              //   y: -100
+              // }
+            }
+          },
+            yAxis: {
+              title: {
+                text: yaxis_label[0]
+              },
+              maxPadding: 0.6
+            },
+            xAxis: {
+              categories: ['Control Stores', 'Test Stores']
+            },
+            credits: {
+              enabled: false
+            },
+            series: [
+              {
+              name: 'Pre-Test',
+              data: [
+                {
+                y: predata.controlstorePre,
+                assignee: 0
+                },
+                {
+                y: predata.testStorePre,
+                assignee: 0
+                }
+                ],
+                type: undefined
+                },
+                {
+                name: 'Post-Test',
+                data: [
+                {
+                y: postdata.controlstorePost,
+                assignee: ''
+                },
+                {
+                y: postdata.testStorePost,
+                assignee: ''
+                }
+              ],
+              type: undefined
+              }
+            ]
+          });
+          save_chart($('#container').highcharts());
+        // }, 3000);
+      });
+
+function save_chart1(chart) {
+      var render_width = EXPORT_WIDTH;
+      var render_height = render_width * 400 / 800
+
+  // Get the cart's SVG code
+  var svg = chart.getSVG({
+      exporting: {
+          sourceWidth: 800,
+          sourceHeight: 400
+      }
+  });
+
+  // Create a canvas
+  var canvas = document.createElement('canvas');
+  canvas.id = 'probability_chart';
+  canvas.height = render_height;
+  canvas.width = render_width;
+  document.body.appendChild(canvas);
+
+  // Create an image and draw the SVG onto the canvas
+  var image = new Image;
+  image.onload = function() {
+      canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+  };
+  image.src = 'data:image/svg+xml;base64,' + window.btoa(svg);
+  $("#container1").remove()
+  $("#probability_chart").addClass('canvaschrt1')
+  // $(".canvaschrt").css("margin-top", "-125px");
+  $(".canvaschrt1").css("width", "300px");
+  $(".canvaschrt1").css("height", "100px");
+  $('.canvaschrt1').appendTo(".probabiltychart")
+}
+
+var colors = [];
+colors[0] = 'green';
+colors[1] = 'orange';
+colors[2] = 'red';
+var probabilty_value = {{probabilty}}
+
+$(function() {
+// setTimeout(function() {
+$('#container1').highcharts({
+    exporting: {
+        enabled: false
+    },
+    title: {
+        text: ''
+    },
+    subtitle: {
+        text: ''
+    },
+    chart: {
+      type: 'bar',
+      spacingTop: 210,
+      spacingRight: 80,
+      spacingLeft: 80,
+        height: 400,
+    },
+      yAxis: {
+        tickInterval: 5,
+                min: 0,
+                max: 100,
+                gridLineWidth: 0,
+                title: {
+                  text: 'Probability Scale'
+                },
+                labels: {
+                  formatter: function() {
+                    if (this.value == 0 || this.value == 60 || this.value == 85 || this.value == 100) {
+                      return this.value + '%';
+                    }
+                  }
+                }
+        },
+      xAxis: {
+        categories: [],
+        visible: false
+      },
+      credits: {
+        enabled: false
+      },
+      colors: colors,
+      legend:
+      {
+        enabled: false,
+        reversed: true
+      },
+      plotOptions: {
+              series: {
+                stacking: 'normal',
+                pointWidth: 35
+              }
+            },
+      series: [
+          {
+            name: '',
+            data: [
+              {
+                y: 15,
+                tip: ''
+              }
+            ]
+          },
+          {
+            name: '',
+            data: [
+              {
+                y: 25,
+                tip: ''
+              }
+            ]
+          },
+          {
+            name: '',
+            data: [
+              {
+                y: 60,
+                tip: ''
+              }
+            ]
+          },
+          {
+            name: 'indicator',
+            data: [probabilty_value],
+            type: 'scatter',
+            color: '#0000a0',
+            marker: {
+              symbol: 'circle'
+            }
+          }
+        ]
+    });
+    save_chart1($('#container1').highcharts());
+  // }, 2000);
+
+});
+
+EXPORT_WIDTH = 1000
+  function save_pre_line_chart(chart) {
+        var render_width = EXPORT_WIDTH;
+        var render_height = render_width * 400 / 800
+
+        // Get the cart's SVG code
+        var svg = chart.getSVG({
+            exporting: {
+                sourceWidth: 800,
+                sourceHeight: 400
+            }
+        });
+
+        // Create a canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'preLineChart';
+        canvas.height = render_height;
+        canvas.width = render_width;
+        document.body.appendChild(canvas);
+
+        // Create an image and draw the SVG onto the canvas
+        var image = new Image;
+        image.onload = function() {
+            canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+        };
+        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+        $("#lineprePeriod").remove()
+        $("#preLineChart").addClass('canvaschrt2')
+        $(".canvaschrt2").css("width", "300px");
+        $(".canvaschrt2").css("height", "160px");
+        $('.canvaschrt2').appendTo(".lineChartPeriod")
+  }
+  function save_post_line_chart(chart) {
+        var render_width = EXPORT_WIDTH;
+        var render_height = render_width * 400 / 800
+
+        // Get the cart's SVG code
+        var svg = chart.getSVG({
+            exporting: {
+                sourceWidth: 800,
+                sourceHeight: 400
+            }
+        });
+
+        // Create a canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'postLineChart';
+        canvas.height = render_height;
+        canvas.width = render_width;
+        document.body.appendChild(canvas);
+
+        // Create an image and draw the SVG onto the canvas
+        var image = new Image;
+        image.onload = function() {
+            canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+        };
+        image.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
+        $("#linepostPeriod").remove()
+        $("#postLineChart").addClass('canvaschrt3')
+        $(".canvaschrt3").css("width", "300px");
+        $(".canvaschrt3").css("height", "160px");
+        $('.canvaschrt3').appendTo(".postlineChart")
+    }
+var lineChartData = {{linechartData}}
+var lineChartpreYaxis = {{lineChartyAxisText}}
+var lineChartpostYaxis = {{lineChartyAxisText}}
+$(function() {
+        $('#lineprePeriod').highcharts({
+      exporting: {
+          enabled: false
+      },
+      title: {
+          text: '<span style="font-size: 26px;font-weight: bolder;">Test vs Control Weekly Comparison(Pre-Period)</span>'
+      },
+      subtitle: {
+          text: ''
+      },
+      chart: {
+          type: 'line',
+        height: 400,
+      },
+         plotOptions: {
+            series: {
+              dataLabels: {
+                enabled: false
+              }
+            }
+         },
+            yAxis: {
+              title: {
+                text: lineChartpreYaxis[0]
+              }
+            },
+            xAxis: {
+              categories: lineChartData.prekeys
+            },
+            credits: {
+              enabled: false
+            },
+            series: [
+        {
+          name: 'Test Preperiod',
+          data: lineChartData.prePeriod,
+          type: 'line',
+          color: '#0000A0'
+        },
+        {
+          name: 'Control Preperiod',
+          data: lineChartData.prePeriod1,
+          type: 'line',
+          color: '#e6a12f'
+        }
+      ]
+      });
+      save_pre_line_chart($('#lineprePeriod').highcharts());
+    });
+    $(function() {
+      $('#linepostPeriod').highcharts({
+      exporting: {
+          enabled: false
+      },
+      title: {
+          text: ''
+      },
+      subtitle: {
+          text: '<span style="font-size: 26px;font-weight: bolder;">Test vs Control Weekly Comparison(Post-Period)</span>'
+      },
+      chart: {
+          type: 'line',
+        height: 400,
+      },
+         plotOptions: {
+            series: {
+              dataLabels: {
+                enabled: false
+              }
+            }
+         },
+            yAxis: {
+              title: {
+                text: lineChartpostYaxis[0]
+              }
+            },
+            xAxis: {
+              categories: lineChartData.postkeys
+            },
+            credits: {
+              enabled: false
+            },
+            series: [
+        {
+          name: 'Test Postperiod',
+          data: lineChartData.postPeriod,
+          type: 'line',
+          color: '#0000A0'
+        },
+        {
+          name: 'Control Postperiod',
+          data: lineChartData.postPeriod1,
+          type: 'line',
+          color: '#e6a12f'
+        }
+      ]
+        });
+        save_post_line_chart($('#linepostPeriod').highcharts());
+    });
+
+    $( document ).ready(function() {
+    });
+
+
+</script>
+<div class="row">
+    <p style="font-weight: 600;margin: 0;font-size: 10px;">Comments</p>
+    <textarea rows="3" cols="50" name="comment" form="usrform" style="width: 700px;"></textarea>
+</div>
+<div class="row">
+    <div class="column" style="padding: 0;line-height: 0px;">
+        <p>Downloaded on : {{date_time}}</p>
+    </div>
+    <div class="column" style="text-align: right;padding: 0;line-height: 0px;">
+        <p>Copyright © {{year}} RTM Fast — Confidential</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+
+chunk {analyse-test-impact-analyse-test-impact-module} analyse-test-impact-analyse-test-impact-module.js, analyse-test-impact-analyse-test-impact-module.js.map (analyse-test-impact-analyse-test-impact-module) 941 kB  [rendered]
+chunk {create-test-create-test-module} create-test-create-test-module.js, create-test-create-test-module.js.map (create-test-create-test-module) 615 kB  [rendered]
+chunk {dashboard-dashboard-module} dashboard-dashboard-module.js, dashboard-dashboard-module.js.map (dashboard-dashboard-module) 209 kB  [rendered]
+chunk {default~analyse-test-impact-analyse-test-impact-module~create-test-create-test-module} default~analyse-test-impact-analyse-test-impact-module~create-test-create-test-module.js, default~analyse-test-impact-analyse-test-impact-module~create-test-create-test-module.js.map (default~analyse-test-impact-analyse-test-impact-module~create-test-create-test-module) 694 kB  [rendered]
+chunk {main} main.js, main.js.map (main) 572 kB [initial] [rendered]
+chunk {polyfills} polyfills.js, polyfills.js.map (polyfills) 373 kB [initial] [rendered]
+chunk {polyfills-es5} polyfills-es5.js, polyfills-es5.js.map (polyfills-es5) 791 kB [initial] [rendered]
+chunk {runtime} runtime.js, runtime.js.map (runtime) 9.35 kB [entry] [rendered]
+chunk {scripts} scripts.js, scripts.js.map (scripts) 87.4 kB [entry] [rendered]
+chunk {styles} styles.js, styles.js.map (styles) 1.67 MB [initial] [rendered]
+chunk {vendor} vendor.js, vendor.js.map (vendor) 15.1 MB [initial] [rendered]
+Date: 2022-02-25T05:54:42.071Z - Hash: a76a62f28fce56c5bcbf - Time: 75994ms
+** Angular Live Development Server is listening on 0.0.0.0:5205, open your browser on http://localhost:5205/ **
+: Compiled successfully.

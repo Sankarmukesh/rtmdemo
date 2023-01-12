@@ -1,0 +1,84 @@
+#bannerDropdown{
+    border-color: white !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn {
+    background-color: #f3f4f7;
+    border-color: white !important;
+    color: #a0a5ab !important;
+}
+
+::ng-deep .multiselect-item-checkbox{
+    font-size: 0.75rem !important;
+    font-family: Mulish_regular !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-up{
+    border-bottom: 5px solid #adadad !important;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-down{
+    border-top: 5px solid #adadad !important;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+}
+
+
+.form-control{
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 200;
+    background-color: #f3f4f7;
+    border-radius: 0.5rem;
+    border-color: white;
+}
+
+// Css for mat-card-content
+.color_red{
+    color:red;
+}
+
+
+.testcard{
+    font-family: Mulish_regular !important;
+}
+
+.label_change{
+    font-size: 0.75rem !important;
+    font-weight: bold !important;
+}
+
+:host ::ng-deep .multiselect-dropdown .selected-item{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 8.5rem;
+}
+
+::ng-deep .multiselect-item-checkbox input[type=checkbox] + div:after{
+    top: 42% !important;
+    left: 2px !important;
+    width: 10px !important;
+    height: 5px !important;
+    border-width: 0 0 2.5px 3px !important;
+}
+
+.form-control:disabled{    
+    background-color: lightgrey !important;
+    cursor: not-allowed !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

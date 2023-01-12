@@ -1,0 +1,344 @@
+// #exampleInputEmail1{
+//   }
+
+  // .selectedTestStoreHeader{
+  //   float: left;
+  //   margin-top: 10%;
+  // }
+.mat-elevation-z8{
+  box-shadow: none !important;
+}
+
+  td.mat-cell {
+    font-size: 12px !important;
+    padding: 5px !important;
+    white-space: nowrap;
+  }
+  #comprassiontable td.mat-cell, td.mat-header-cell {
+    white-space: normal!important;
+  }
+
+  td.mat-header-cell{
+    background-color: #f3f4f8;
+    font-weight: bolder;
+    padding-left: 0px !important;
+    white-space: nowrap;
+  }
+
+  th.mat-header-cell{
+    padding-left: 10px !important;
+    white-space: nowrap;
+    background-color: #f3f4f8;
+    font-weight: bolder;
+    // text-align: center !important;
+  }
+
+  tr.mat-header-row{
+    height: 35px !important;
+  }
+
+  agm-map {
+    height: 300px;
+  }
+
+  .no_records{
+    text-align: center;
+    color: #cfD4De;
+  }
+
+  .fontMulishBold{
+    font-family: Mulish_bold !important;
+  }
+
+  .fontMulishRegular{
+    font-family: Mulish_regular !important;
+  }
+
+.form-control{
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 200;
+  background-color: #f3f4f7;
+  border-radius: 0.5rem;
+  border-color: white;
+}
+
+::ng-deep .mat-button-toggle-checked.mat-button-toggle-appearance-standard{
+  color: #000091!important;
+}
+
+::ng-deep .mat-button-toggle-standalone.mat-button-toggle-appearance-standard, .mat-button-toggle-group-appearance-standard {
+  border-radius: 8px!important;
+}
+
+::ng-deep .mat-button-toggle-checked {
+  background-color: #2fd1aa !important;
+  color: #000091 !important;
+  border-radius: 5px;
+}
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+   padding: 1px 5px !important;
+   font-family: Mulish_regular;
+   font-size: 0.813rem;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  line-height: 26px!important;
+}
+
+.toggle_icon{
+  font-size: 1rem;
+  padding-top: 3px;
+}
+
+::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle{
+  border-left: none!important;
+}
+
+.not_checked{
+  color: #6f7e95!important;
+  background: #f3f4f7!important;
+}
+
+.option_error {
+  color: red;
+  float: left;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.download_template {
+  cursor: pointer;
+}
+
+.file {
+  position: relative;
+  height: 30px;
+  width: 100px;
+}
+
+.file > input[type="file"] {
+  position: absoulte;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0
+}
+
+.arrow_navigate {
+  float: right;
+  cursor: pointer;
+}
+
+.two-column-div {
+  -webkit-columns: 2; /* Chrome, Safari, Opera */
+  -moz-columns: 2; /* Firefox */
+  columns: 2;
+ }
+
+.left-div {
+	width: 45%;
+	float: left;
+}
+
+.right-div {
+	width: 55%;
+	float: right;
+}
+
+.space-radio{
+  display: flex;
+  justify-content: space-between;
+  width: 34%;
+  margin-top: 3%;
+  margin-left: -1%;
+}
+
+.space-radio2{
+  display: flex;
+  justify-content: space-between;
+  width: 40.6%;
+  margin-top: 3%;
+  margin-left: -1%;
+}
+
+.file > label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #666;
+  color: #fff;
+  border-radius: 5px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer
+}
+
+.example-box {
+  /* padding: 20px 10px; */
+  border: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: white;
+  font-size: 14px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+//::ng-deep .mat-button-toggle-appearance-standard {
+//  color: #6f7e95!important;
+//  background: #f3f4f7!important;
+//}
+.font_color{
+  color: #2fd1aa;
+  font-weight: bold;
+}
+
+.mat_heading{
+  font-weight: bold;
+  font-size: 16px;
+  font-family: Mulish_bold;
+}
+
+.background_change{
+  background-color: rgba(0, 0, 145, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.control_value{
+  font-family: Mulish_bold;
+  font-size: 19px;
+  margin:auto
+}
+
+.control_text{
+  font-family: Mulish_regular;
+  font-size: 0.75rem;
+  color: #4C596B;
+}
+
+.display_container{
+  display: flex;
+}
+
+.inputText{
+  background-color: #f3f4f7;
+    border-radius: 0.5rem;
+    border-color: white !important;
+    border: 0px;
+    padding: 0.5rem;
+}
+.border_style_left{
+  border-radius: 10px 0px 0px 10px;
+}
+
+.border_style_right{
+  border-radius: 0px 10px 10px 0px;
+}
+
+table tr th{
+  border-top: 0px;
+  color: #66768F;
+}
+.border_change{
+  border-top: 0px!important;
+}
+.table_head_color{
+  background-color: #F3F4F7;
+}
+
+table{
+  font-size: 0.688rem;
+}
+
+::ng-deep .mat-sort-header-container {
+  display:flex;
+  justify-content:center;
+}
+
+.align_center{
+  text-align: center !important;
+}
+
+.align_left{
+  text-align: left !important;
+}
+
+.info_window {
+  cursor: pointer;
+}
+
+.font_size{
+  font-size: 0.75rem;
+}
+
+.store-id-map {
+  position: relative;
+}
+
+::ng-deep button.gm-ui-hover-effect {
+  visibility: hidden!important;
+}
+
+.font_green{
+  color: green !important;
+  font-weight: bold !important;
+}
+
+.font_normal{
+  font-weight: bold !important;
+  color: black;
+}
+
+.background-color-green{
+  background-color: palegreen;
+}
+
+#power-chart {
+  height: 400px;
+}
+
+.legend { list-style: none;
+  margin-top: 2rem;
+  margin-left: 2rem; }
+.legend li { float: left; margin-right: 10px; }
+.legend span { float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend .acceptableRange { background-color: palegreen;
+  border: 1px solid green; }
+.arTxt{
+  font-size: 11px;
+  font-weight: bold;
+  width: 6rem !important;
+  line-height: 0.8rem;
+}
+
+.legend2 { list-style: none;
+  margin-left: 10rem; }
+.legend2 li { float: left; margin-right: 10px; }
+.legend2 span { float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend2 .acceptableRange2 { background-color: palegreen;
+  border: 1px solid green; }
+.arTxt2{
+  font-size: 11px;
+  font-weight: bold;
+  width: 6rem !important;
+  line-height: 0.8rem;
+}

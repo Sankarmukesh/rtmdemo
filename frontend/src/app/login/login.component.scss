@@ -1,0 +1,202 @@
+@import "src/theme/theme-variables";
+@import "~bootstrap/scss/mixins/_breakpoints";
+
+.login-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.pad-top{
+  padding-top: 10px;
+}
+.email{
+  color: #0000A0;
+  font-weight: 700;
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+.reg_msg_bg {
+    width: 97%;
+    border: 4px solid #0000A0;
+    padding: 30px;
+    border-radius: 30px;
+    background-color: #ffeec7;
+}
+
+.req_msg{
+  position: initial !important;
+  width: 100% !important;
+  margin-top: 26%;
+}
+
+.req_msg_col{
+  font-size: 22px;
+  color: black;
+  font-weight: 400;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+}
+
+.ng-invalid.ng-touched:not(form) {
+  border-left: 4px solid theme-color("danger");
+}
+
+.imagetextbox img {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  padding: 35px 8px;
+  color: #aaa;
+  transition: 0.3s;
+}
+
+.imagetextbox {
+  position: relative;
+}
+
+.imagetextbox input[type="text"] {
+  padding-left: 30px;
+}
+
+.imagetextbox input[type="password"] {
+  padding-left: 30px;
+}
+
+.centered {
+  position: absolute;
+  top: 28%;
+  left: 19%;
+  height: auto;
+  width: 58%;
+  background-color: #585151;
+  opacity: 0.8;
+  padding: 0 0 25px 0px;
+  // transform: translate(-50%, -50%);
+}
+.centeredlogin {
+  position: absolute;
+  top: 28%;
+  left: 19%;
+  height: 45%;
+  width: 58%;
+}
+.loginbutton {
+  background-color: #1846a0 !important;
+  color: #fff;
+}
+.bordernone {
+  border-radius: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li::before {
+  content: "\2022";
+  color: #fff;
+  font-weight: bold;
+  // display: inline-block;
+  // width: 1em;
+  // margin-left: -1em;
+}
+
+@include media-breakpoint-down(xs) {
+  .container {
+    width: 100%;
+  }
+}
+.logo {
+  width: 50px;
+  margin-top: 3px;
+}
+.bg-black {
+  background-color: #0000a0 !important;
+}
+.collapse:not(.show) {
+  display: block;
+}
+.nav-link.dropdown-toggle {
+  cursor: pointer;
+}
+* {
+  //margin: 0;
+  padding: 0;
+}
+#container {
+  height: 100%;
+  width: 100%;
+  font-size: 0;
+}
+
+#left,
+#middle,
+#right {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  font-size: 12px;
+}
+
+#left {
+  width: 40%;
+}
+#middle {
+  width: 30%;
+  height: 55px;
+}
+
+.head-text {
+  text-align: center;
+  vertical-align: bottom;
+  line-height: 55px;
+}
+
+#right {
+  width: 30%;
+}
+#navbar-menu {
+  height: 55px;
+}
+#user-circle {
+  font-size: 51px;
+}
+.navbar {
+  margin-bottom: 0rem;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 70%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.singleSignbutton {
+  background-color: #228b22 !important;
+  color: #fff;
+}

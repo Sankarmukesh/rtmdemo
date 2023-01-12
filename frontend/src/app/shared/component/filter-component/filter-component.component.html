@@ -1,0 +1,33 @@
+<div id="main_container" class="pl-4 pt-3 pr-3">
+    <perfect-scrollbar  [style.height.px]="480" style="width:100%;overflow-x: hidden;">
+        <div>
+            <div class="header_content">Filter <span style="float: right;cursor: pointer;font-size: 14px;" (click)="toggleClose()"><i class="fa fa-times" aria-hidden="true"></i>
+            </span></div>
+            <hr/>
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel *ngFor="let vault of arrayFilterData">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-checkbox [indeterminate]="vault.indeterminate" (change)="masterToggle(vault,$event)"
+                                    [checked]="vault.checked">{{vault.value}} (All)
+                            </mat-checkbox>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-panel-description *ngFor="let subVault of vault.subValue">
+                        <mat-checkbox (change)="checkboxValueChanges(vault,subVault.value, $event)" [checked]="subVault.checked"
+                            class="sub-vaults">
+                            {{subVault.value}}
+                        </mat-checkbox>
+                    </mat-panel-description>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </perfect-scrollbar>
+    <hr/>
+    <div id="footer" style="float: right">
+        <button mat-button (click)="reset()" class="button-color-enable font_size_button" style="margin-right: 1rem">Reset
+        </button>
+      <button mat-button
+        class="button-color-enabled-background font_size_button" (click)="Applyfilter()">Apply Filter</button>
+    </div>
+</div>

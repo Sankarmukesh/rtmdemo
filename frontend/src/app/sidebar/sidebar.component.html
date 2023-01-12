@@ -1,0 +1,57 @@
+<div class="sidebar_menu" [@onSideNavChange]="sidebarState" id="sidebar">
+  <mat-nav-list class="menu-list">
+    <mat-list-item>
+      <mat-icon class="icon text-color" [ngClass]="{'ml-2': sidebarState==='close'}" [@iconAnimation]="sidebarState"
+        (click)="toggleSideNav()" style="color: #b6b8d4 !important;">sort
+      </mat-icon>
+      <span class="label pl-3 text-color" [@labelAnimation]="sidebarState"
+        style="color: #b6b8d4 !important;font-size: 13px;font-weight: bold;">T&L Tool</span>
+    </mat-list-item>
+  </mat-nav-list>
+  <mat-nav-list class="menu-list">
+    <mat-list-item>
+      <ngx-select *ngIf="sidebarState === 'open'" [items]="region" [(ngModel)]="selectedRegion" [noAutoComplete]="true"
+        optionTextField="name" style="width: 100%;" (ngModelChange)="changeRegion(selectedRegion)">
+        <ng-template ngx-select-option let-option let-text="text">
+          <span style="font-size: 13px;">{{option.data.name}}</span>
+          <span style="float: right;"><img src="{{option.data.flag}}" class="{{option.data.class}}" /></span>
+        </ng-template>
+        <ng-template ngx-select-option-selected let-option let-text="text">
+          <span class="font_size_small">
+            {{option.data.name}} &#40;{{option.data.code}}&#41;
+          </span>
+        </ng-template>
+      </ngx-select>
+      <div *ngIf="sidebarState === 'close'" class="selected_region">
+        {{selectedCountryCode}}
+      </div>
+    </mat-list-item>
+    <a mat-list-item routerLinkActive="active-list-item" routerLink="dashboard" title="Dashboard"
+      (click)="changeActive('dashboard')" class="mt-3">
+      <div
+        [ngClass]="{'sidebar_border_active': routeLinkactive === 'dashboard', 'sidebar_border_inactive': routeLinkactive !== 'dashboard', 'width_toggle': sidebarState === 'close' && routeLinkactive === 'dashboard' }"
+        style="display: flex">
+        <mat-icon class="icon text-color" [@iconAnimation]="sidebarState">dashboard</mat-icon>
+        <span class="label pl-3 text-color" [@labelAnimation]="sidebarState">Dashboard</span>
+      </div>
+    </a>
+    <a mat-list-item routerLinkActive="active-list-item" routerLink="createTest" title="Create New Test"
+      (click)="changeActive('createTest')" class="mt-3">
+      <div
+        [ngClass]="{'sidebar_border_active': routeLinkactive === 'createTest', 'sidebar_border_inactive': routeLinkactive !== 'createTest', 'width_toggle': sidebarState === 'close' && routeLinkactive === 'createTest'}"
+        style="display: flex">
+        <mat-icon class="icon text-color" [@iconAnimation]="sidebarState">edit</mat-icon>
+        <span class="label pl-3 text-color" [@labelAnimation]="sidebarState">Create New Test</span>
+      </div>
+    </a>
+    <a mat-list-item routerLinkActive="active-list-item" routerLink="analyseImpact" title="Analyse Test Impact"
+      (click)="changeActive('analyseImpact')" class="mt-3">
+      <div
+        [ngClass]="{'sidebar_border_active': routeLinkactive === 'analyseImpact', 'sidebar_border_inactive': routeLinkactive !== 'analyseImpact', 'width_toggle': sidebarState === 'close' && routeLinkactive === 'analyseImpact'}"
+        style="display: flex">
+        <mat-icon class="icon text-color" [@iconAnimation]="sidebarState">image_search</mat-icon>
+        <span class="label pl-3 text-color" [@labelAnimation]="sidebarState">Analyse Test Impact</span>
+      </div>
+    </a>
+  </mat-nav-list>
+</div>

@@ -1,0 +1,319 @@
+<div class="v85_81">{{tableHeader}}</div>
+<div>
+  <div style="float: right;">
+    <mat-paginator #paginator2 [pageSize]="10" [pageSizeOptions]="[5, 10 , 20]">
+    </mat-paginator>
+  </div>
+  <div style="float: right;padding-top: 16px;margin-right: 0.5rem">
+    <span *ngIf="!hideFilter" style="margin-right: 0.2rem;" (click)="callFilterDataToParent()"><!-- (click)="filterCall()"-->
+      <i class="fas fa-sliders-h" style="cursor: pointer;"></i>
+    </span>
+    <span style="border-left: 1px solid lightgrey"></span>
+    <span *ngIf="!hideSettings" style="margin-left:0.5rem;">
+      <i class="fas fa-cog" style="cursor: pointer;" (click)="openDailog(myDialog)"></i>
+    </span>
+    <!-- <span *ngIf="showExpand" style="margin-left: 0.5rem;" (click)="callFullScreenToParent()">
+      <i class="fas fa-expand-arrows-alt" style="cursor: pointer;"></i>
+    </span> -->
+  </div>
+  <div style="float: right;padding-top: 12px;margin-right: 1.5rem">
+    <input class="form-control" type="search" (keyup)="applyFilter($event.target.value)" (search)="applyFilter('')"
+           placeholder="&#xF002;&nbsp; Search" style="font-family:sans-serif, FontAwesome;width: 175px !important;height: 30px !important;
+                      background-color: #f3f4f7;border-radius: 0.55rem !important;font-size: 0.8rem !important;"/>
+  </div>
+</div>
+<ng-container *ngIf="this.tableType === 'dashboard'">
+  <perfect-scrollbar [perfectScrollbar]="configPerfect" style="height: 240px;">
+    <table mat-table [dataSource]="tableData" matSort matSortDisableClear (matSortChange)="sortData($event)">
+      <ng-container [matColumnDef]="tableData" *ngFor="let tableData of array">
+        <ng-container [ngSwitch]="tableData">
+          <ng-container *ngSwitchDefault>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element"> {{element[tableData] }}</td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'store_no'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell [ngClass]="getAlign(row)" *matCellDef="let element"> {{ getTestStoreName(element) }}</td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'testprepost'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element"><span [ngClass]="getColor(element[tableData])"
+                                                        style="font-weight: bold !important;">{{element[tableData] }}</span>
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'cntrlprepost'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element"><span [ngClass]="getColor(element[tableData])"
+                                                        style="font-weight: bold !important;">{{element[tableData] }}</span>
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'testvscntrl'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element"><span [ngClass]="getColor(element[tableData])"
+                                                        style="font-weight: bold !important;">{{element[tableData] }}</span>
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'status'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell style="white-space:nowrap;" *matCellDef="let element"><span [ngClass]="getColorDash(element)">{{status(element) }}</span></td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'test_window'">
+            <th mat-header-cell [hidden]="hideTestWindowColumns" *matHeaderCellDef mat-sort-header
+                style="width: 16%;z-index:0 !important;"><span class="table-header-label">{{columnHeader[tableData]}}</span>
+            </th>
+            <td mat-cell [hidden]="hideTestWindowColumns" *matCellDef="let element"><span>{{element[tableData] }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'similarity_value'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;">{{element[tableData] }}</td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'sales_corelation'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;">{{element[tableData] }}</td>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'teststoreid'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"
+                [ngClass]="tableName.test_store_id === 'Test Store Name' ? 'text-align-left' : 'text-align-center'">{{element[tableData] }}</td>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'actions'">
+            <th mat-header-cell *matHeaderCellDef class="remove_border" style="border-radius: 0px 0px 10px 0px;">
+              <span class="table-header-label context-width">Actions</span>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button [matMenuTriggerFor]="menu" class="mr-3">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <div mat-menu-item class="border_bottom" [ngClass]="getAnalyseImpactButton(row)"
+                    (click)="analyseToParent(row)"><span [ngClass]="getAICursor(row)">Analyse Impact</span></div>
+                <div mat-menu-item class="border_bottom" (click)="edittoParent(row.test_id)"  [ngClass]="getEditButton(row)">Edit</div>
+                <div mat-menu-item class="border_bottom" (click)="historytoParent(row.test_id)">History</div>
+                <div *ngIf="row.is_own" mat-menu-item class="border_bottom" (click)="deletetoParent(row)">Delete</div>
+              </mat-menu>
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'select'">
+            <th mat-header-cell *matHeaderCellDef
+                style="justify-content: left !important;padding-left: 0.1rem !important;">
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="stringSelection.hasValue() && isAllSelected()"
+                            [indeterminate]="stringSelection.hasValue() && !isAllSelected()"
+                            (change)="selectAllStores($event)" class="headerCheck">
+              </mat-checkbox>
+              <span class="table-header-label">Select Store
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" [checked]="stringSelection.isSelected(row)"
+                            (change)="$event ? stringSelection.toggle(row) : null" (change)="selectedstrtable(row.store_no)"
+                            [aria-label]="checkboxLabelTeststore(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'select_csm'">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>
+              <span class="table-header-label">Select
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? stringSelectionControlStore.toggle(row) : null"
+                            (change)="showValue($event)" [checked]="stringSelectionControlStore.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container *ngSwitchCase="'details'">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+              class="table-header-label">{{columnHeader[tableData]}}</span></th>
+            <td mat-cell *matCellDef="let element"><span class="truncate"
+              [matTooltip]="element[tableData].length > 32 ?
+              element[tableData]: '' ">{{element[tableData] }}</span></td>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+    </table>
+  </perfect-scrollbar>
+</ng-container>
+<ng-container *ngIf="this.tableType !== 'dashboard'">
+  <table mat-table [dataSource]="tableData" matSort matSortDisableClear (matSortChange)="sortData($event)">
+    <ng-container [matColumnDef]="tableData" *ngFor="let tableData of array">
+      <ng-container [ngSwitch]="tableData">
+        <ng-container *ngSwitchDefault>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element"> {{element[tableData] }}</td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'store_no'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell [ngClass]="getAlign(row)" *matCellDef="let element"> {{ getTestStoreName(element) }}</td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'testprepost'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element"><span [ngClass]="getColor(element[tableData])"
+                                                      style="font-weight: bold !important;">{{element[tableData] }}</span>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'cntrlprepost'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element"><span [ngClass]="getColor(element[tableData])"
+                                                      style="font-weight: bold !important;">{{element[tableData] }}</span>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'testvscntrl'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element"><span [ngClass]="getColor(element[tableData])"
+                                                      style="font-weight: bold !important;">{{element[tableData] }}</span>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'status'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell style="white-space:nowrap;" *matCellDef="let element"><span [ngClass]="getColorDash(element)">{{status(element) }}</span></td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'test_window'">
+          <th mat-header-cell [hidden]="hideTestWindowColumns" *matHeaderCellDef mat-sort-header
+              style="width: 16%;z-index:0 !important;"><span class="table-header-label">{{columnHeader[tableData]}}</span>
+          </th>
+          <td mat-cell [hidden]="hideTestWindowColumns" *matCellDef="let element"><span>{{element[tableData] }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'similarity_value'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;">{{element[tableData] }}</td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'sales_corelation'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;">{{element[tableData] }}</td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'teststoreid'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;"
+              [ngClass]="tableName.test_store_id === 'Test Store Name' ? 'text-align-left' : 'text-align-center'">{{element[tableData] }}</td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'actions'">
+          <th mat-header-cell *matHeaderCellDef class="remove_border" style="border-radius: 0px 0px 10px 0px;">
+            <span class="table-header-label context-width">Actions</span>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [matMenuTriggerFor]="menu" class="mr-3">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <div mat-menu-item class="border_bottom" [ngClass]="getAnalyseImpactButton(row.stepId)"
+                  (click)="analyseToParent(row)"><span [ngClass]="getAICursor(row)">Analyse Impact</span></div>
+              <div mat-menu-item class="border_bottom" (click)="edittoParent(row.test_id)"  [ngClass]="getEditButton(row.stepId)">Edit</div>
+              <div mat-menu-item class="border_bottom" (click)="historytoParent(row.test_id)">History</div>
+              <div *ngIf="row.is_own" mat-menu-item class="border_bottom" (click)="deletetoParent(row)">Delete</div>
+            </mat-menu>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'select'">
+          <th mat-header-cell *matHeaderCellDef
+              style="justify-content: left !important;padding-left: 0.1rem !important;">
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="stringSelection.hasValue() && isAllSelected()"
+                          [indeterminate]="stringSelection.hasValue() && !isAllSelected()"
+                          class="headerCheck">
+            </mat-checkbox>
+            <span class="table-header-label">Select Store
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" [checked]="stringSelection.isSelected(row)"
+                          (change)="$event ? stringSelection.toggle(row) : null" (change)="selectedstrtable(row.store_no)"
+                          [aria-label]="checkboxLabelTeststore(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'select_csm'">
+          <th mat-sort-header mat-header-cell *matHeaderCellDef>
+            <span class="table-header-label">Select
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? stringSelectionControlStore.toggle(row) : null"
+                          (change)="showValue($event)" [checked]="stringSelectionControlStore.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'details'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><span
+            class="table-header-label">{{columnHeader[tableData]}}</span></th>
+          <td mat-cell *matCellDef="let element"><span class="truncate"
+            [matTooltip]="element[tableData].length > 32 ?
+            element[tableData]: '' ">{{element[tableData] }}</span></td>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+  </table>
+</ng-container>
+<ng-template #myDialog>
+  <div cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle
+       style="font-size: 20px;font-weight: bolder;cursor: grab;">Configure grid
+  </div>
+  <hr>
+  <mat-dialog-content>
+    <div cdkDropList [cdkDropListData]="array" class="example-list mt-20"
+         (cdkDropListDropped)="drop($event)">
+      <div class="example-box" [ngClass]="!hideIcon[disp] ? 'active' : 'deactive'"
+           *ngFor="let disp of array, index as i" cdkDrag [cdkDragDisabled]="hideIcon[disp]" [cdkDragData]="disp">
+        <div class="w-10 drag-icon">
+          <mat-icon>drag_indicator</mat-icon>
+        </div>
+        <div class="w-100 drag-content">
+          {{getDisplayColumn(disp)}}
+        </div>
+        <div style="padding-right: 5%;">
+          <div (click)="hideOrShowColumns(disp,i)">
+            <mat-icon style="cursor: pointer;
+              font-size: 20px;
+              color: gray;
+              padding: 5px;" *ngIf="hideIcon[disp]">visibility_off
+            </mat-icon>
+            <mat-icon style="cursor: pointer;
+              font-size: 20px;
+              color: gray;
+              padding: 5px;" *ngIf="!hideIcon[disp]">visibility
+            </mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions style="float: right;padding-top: 1rem;margin-bottom: -10px">
+    <button mat-button class="button-color" (click)="closeDailog()" style="cursor: pointer">Cancel</button>
+    <button mat-button class="pl-2 button-color-enabled-background" (click)="closeDailog()" style="cursor: pointer"
+            type="submit">Ok
+    </button>
+  </mat-dialog-actions>
+</ng-template>

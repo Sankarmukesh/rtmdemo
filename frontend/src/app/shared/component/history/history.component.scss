@@ -1,0 +1,58 @@
+.circle{
+    height: 8rem;
+    font-family: Mulish_regular !important;
+}
+
+.separator {
+    width: 3px;
+    height: 69px;
+    border-radius: 3px;
+    background-color: rgba(0,0,0,.54);
+    margin-top: -54px;
+    margin-bottom: 5px;
+    margin-left: 10%;
+  }
+
+  .initials {
+    float: left;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: mediumslateblue;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    line-height: 59px;
+    margin: 4px 8px;
+  }
+
+    // .separator:last-child{        
+    // background-color: #fff;
+    // }
+
+    .vertical_dotted_line
+    {
+        border-left: 2px dashed lightgrey;
+    height: 64px;
+    margin-top: -13%;
+    margin-left: 10%;
+    } 
+
+    .vertical_dotted_line:last-child{        
+     background-color: #fff;
+     }
+
+
+  .container {
+    padding: 15px;
+    
+    /* align items in one column and take space defined by content */
+    /* this is used for centering separator */
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  .last{
+      border-color: #fff;
+  }

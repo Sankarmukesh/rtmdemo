@@ -1,0 +1,91 @@
+<mat-card>
+  <mat-card-content class="mat-card_content">
+    <div class="header_content">Percentage change:&nbsp;<span class="span_header">{{testName}}, {{test_type}}</span>
+      <span style="float: right;padding-right: 5px;" (click)="filterCall()"><i class="fas fa-sliders-h" style="cursor: pointer;"></i></span>
+    </div>
+    <hr/>
+    <div class="row" style="margin-left: 0rem;">
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label id="lbl_test_details_test_name" class="label_change">I would like to analyze </label>
+          <ngx-select [allowClear]="false" [(ngModel)]="selectedTargetVariable" placeholder="Select dropdown"
+                      [items]="targetVariableItems" name="TypeTest">
+          </ngx-select>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-left: 0rem;">
+      <span style="font-size: 13px;font-family: Mulish_regular !important;padding-left: 1rem;">What would you like
+        to see?</span><br/>
+      <div class="col-md-12" style="padding-top: 12px;padding-bottom: 12px">
+        <mat-radio-group (change)="radioChange($event)"  [(ngModel)]="selectedRadioButton">
+          <mat-radio-button value="1" [checked]="true" #btn>
+            <span class="radio_label_ia">
+              Pre vs post period comparison
+            </span>
+          </mat-radio-button>
+          <mat-radio-button value="2" #btn2 class="pl-2">
+            <span class="radio_label_ia">
+              Test stores lift comparison
+            </span>
+          </mat-radio-button>
+          <mat-radio-button value="3" #btn3 class="pl-2">
+            <span class="radio_label_ia">
+              Test Vs control stores weekly comparison
+            </span>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-12">
+        <button mat-raised-button class="button-color-enabled-background font_size_button" style="float: right;"
+                (click)="loadGraph()">Load
+          Graph
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div [hidden]="true" style="padding-top: 2rem;">
+  <mat-card>
+    <mat-card-content class="mat-card_content">
+      <div id="target-probability"></div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div [hidden]="!prePostGraph"
+     style="padding-top: 1.5rem;padding-left: 0% !important;">
+  <mat-card>
+    <div id="trgt-prepost" style="height: 440px"></div>
+  </mat-card>
+</div>
+<div [hidden]="!liftComparisonGraph"
+     style="padding-top: 2rem;">
+  <mat-card>
+    <div id="trgt-testcntrl"></div>
+  </mat-card>
+</div>
+<div [hidden]="!weeklyComparisonGraph"
+     style="padding-top: 2rem;">
+  <mat-card>
+    <!-- <mat-radio-group aria-label="Select an option" (change)="changeview($event)" [(ngModel)]="testcontrol_view">
+      <mat-radio-button value="1" [checked]="true">Pre Period</mat-radio-button>
+      <mat-radio-button value="2">Post Period</mat-radio-button>
+    </mat-radio-group> -->
+    <!-- <mat-button-toggle-group #grou="matButtonToggleGroup" style="margin-bottom: 4%;" [(ngModel)]="testcontrol_view"
+                             [value]="testcontrol_view" (change)="changeview($event)">
+      <mat-button-toggle value="1" aria-label="Text align left">
+        Pre Period
+      </mat-button-toggle>
+      <mat-button-toggle value="2" aria-label="Text align center">
+        Post Period
+      </mat-button-toggle>
+    </mat-button-toggle-group> -->
+    <div id="test-control"></div>
+  </mat-card>
+</div>
+<br>

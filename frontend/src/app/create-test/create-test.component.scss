@@ -1,0 +1,180 @@
+/* Add application styles & imports to this file! */
+.name {
+  color: #fff;
+}
+
+.active{
+  background-color: lightgray;
+  color: white;
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+  background-color: #d40061 !important;
+  color: #fff !important;
+}
+
+@media(min-width: 1200px){
+  .width_grid{
+    max-width: 74%!important
+  }
+}
+
+::ng-deep .mat-step-header .mat-step-icon-selected{
+  background-color: #d40061;
+}
+
+.width_grid{
+  padding-left: 0.5rem!important;
+}
+
+// mat-radio changes
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #cfd4de !important;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple{
+  background-color: #000091!important;
+}
+
+::ng-deep .mat-radio-container{
+  width: 13px!important;
+  height: 16px!important;
+}
+
+::ng-deep .mat-radio-outer-circle{
+  width: 15px!important;
+  height: 15px!important;
+}
+
+::ng-deep .mat-radio-inner-circle{
+  width: 15px!important;
+  height: 15px!important;
+}
+
+::ng-deep .mat-radio-label-content{
+  color: #1f242c
+}
+
+::ng-deep #progressContent .ps-content{
+  overflow: hidden!important;
+}
+
+::ng-deep .mat-vertical-content{
+  padding: 0 !important;
+}
+
+::ng-deep .mat-vertical-stepper-header{
+  height: 55px!important;
+}
+
+::ng-deep .mat-stepper-vertical-line::before{
+  top: -12px!important;
+  bottom: -12px!important;
+}
+
+#icon_edit .custom_color_change{
+  color: #d40061!important;
+  background-color: #fff!important;
+}
+
+::ng-deep .mat-step-icon-state-edit{
+  background-color: #ffff!important;
+  color: #d40061!important;
+  border: 1px solid #d40061 !important;
+}
+
+::ng-deep .mat-step-icon .mat-step-icon-state-number{
+  background-color: #fff!important;
+  color: #949fb3!important;
+  border: 1px solid #949fb3!important;
+}
+
+.control_summary{
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.control_span_active{
+  margin-right: 6px;
+}
+.control_span_inactive{
+  margin-right: 10px;
+}
+.active_span{
+  border: 2px solid #EC9B02;
+  border-radius: 6px;
+  color: black;
+}
+.active_div {
+  font-family: Mulish_bold;
+  font-size: 0.75rem;
+}
+.inactive_div {
+  font-family: Mulish_regular;
+  font-size: 0.75rem;
+  color: #66768F;
+}
+
+//  Tips and Tricks
+
+.first_heading{
+  font-family: Mulish_bold;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.image_div{
+  padding: 20px;
+  text-align: center;
+}
+
+.image_size{
+  height: 7.25rem;
+  width: 7.25rem;
+}
+
+.second_p{
+  color: #66768F;
+  font-size: 0.688rem;
+  font-family: Mulish_regular;
+}
+
+ul li::marker {
+  font-size: 150%;
+  color: #4C596B!important;
+}
+
+ul {
+  padding-inline-start: 15px;
+}
+
+// Tips and tricks End Css
+
+::ng-deep .mat-vertical-content{
+  padding: 0 !important;
+}
+
+::ng-deep .mat-vertical-stepper-header{
+  height: 55px!important;
+}
+
+::ng-deep .mat-stepper-vertical-line::before{
+  top: -12px!important;
+  bottom: -12px!important;
+}
+
+#icon_edit .custom_color_change{
+  color: #d40061!important;
+  background-color: #fff!important;
+}
+
+::ng-deep .mat-step-icon-state-edit{
+  background-color: #ffff!important;
+  color: #d40061!important;
+  border: 1px solid #d40061 !important;
+}
+
+::ng-deep .mat-step-icon .mat-step-icon-state-number{
+  background-color: #fff!important;
+  color: #949fb3!important;
+  border: 1px solid #949fb3!important;
+}

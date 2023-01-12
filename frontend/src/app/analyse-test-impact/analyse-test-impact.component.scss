@@ -1,0 +1,418 @@
+.button-color-enabled-background{
+  background-color: #000091;
+  color: #fff !important;
+  margin-right: 1rem;
+}
+
+.button-color-notFocused-background{
+  background-color: #fff;
+  color: black !important;
+  margin-right: 1rem;
+}
+
+.spanBold{
+  font-weight: bold;
+}
+
+.imageHeight{
+  height: 90px;
+}
+
+.label_change{
+  color: black;
+  line-height: 1.25rem;
+  margin-bottom: 10px;
+  font-family: Mulish_bold !important;
+}
+
+.form-control{
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 200;
+  background-color: #f3f4f7;
+  border-radius: 0.5rem;
+  border-color: white !important;
+}
+
+.button-color-enable {
+  color: #101098 !important;
+  background-color: #ebebff !important;
+}
+
+::ng-deep .ngx-select__toggle {
+  background-color: #f3f4f7;
+  border-color: white !important;
+  height: 38px;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+}
+
+:host ::ng-deep .ngx-select__toggle{
+  background-color: #f3f4f7!important;
+}
+
+//   :host .route_container_right{
+//   padding-bottom: 15rem;
+// }
+
+.radio_label{
+  color: black;
+  font-family: Mulish_bold !important;
+}
+
+.radio_label_ia{
+  color: black;
+  font-family: Mulish_regular !important;
+}
+
+.side_menu_analyse{
+  font-family: Mulish_regular !important;
+  font-size: 0.75rem !important;
+  width: 100%;
+  text-align: left;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.analyse-button-area {
+  width: 97%;
+  margin-left: 0%;
+}
+
+:host ::ng-deep .ngx-select__toggle{
+  color: #495057 !important;
+}
+
+.floatRight{
+  float: right;
+}
+
+.cardOp{
+  width: 98%;
+}
+
+#overflowHidden{
+  overflow: hidden;
+}
+
+#overflowHidden2{
+  overflow: hidden;
+}
+
+.width_grid {
+  padding-left: 0.5rem !important;
+}
+
+// #divHeight{
+//   height: 250px !important;
+// }
+
+.form-control{
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.813rem;
+  font-weight: 200;
+  background-color: #f3f4f7;
+  border-radius: 0.5rem;
+  border-color: white !important;
+}
+
+::ng-deep .ngx-select__toggle {
+  background-color: #f3f4f7;
+  border-color: white !important;
+  height: 38px;
+  border-radius: 0.5rem;
+  font-size: 0.813rem;
+}
+
+::ng-deep .ngx-select__item{
+  font-size: 0.75rem;
+}
+
+#progressContent{
+  width: 97% !important;
+}
+
+.second_p{
+  color: #66768F;
+  font-size: 0.688rem;
+  font-family: Mulish_regular;
+}
+
+// mat-radio changes
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #cfd4de !important;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple{
+  background-color: #000091!important;
+}
+
+::ng-deep .mat-radio-container{
+  width: 13px!important;
+  height: 16px!important;
+}
+
+::ng-deep .mat-radio-outer-circle{
+  width: 15px!important;
+  height: 15px!important;
+}
+
+::ng-deep .mat-radio-inner-circle{
+  width: 15px!important;
+  height: 15px!important;
+}
+
+::ng-deep .mat-radio-label-content{
+  color: #1f242c
+}
+
+.control_summary{
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+.control_span_active{
+  margin-right: 6px;
+}
+.control_span_inactive{
+  margin-right: 10px;
+}
+.active_span{
+  border: 2px solid #EC9B02;
+  border-radius: 0.5rem;
+  color: black;
+}
+.active_div {
+  font-family: Mulish_bold;
+  font-size: 0.75rem;
+}
+.inactive_div {
+  font-family: Mulish_regular;
+  font-size: 0.75rem;
+  color: #66768F;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  border-radius: 10px;
+  bottom: 28rem;
+  right: 6.5rem;
+  position: relative;
+  background-color: white;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 40%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+
+.modal-header {
+  padding: 10px 16px;
+  background-color: #000092;
+  color: white;
+  font-family: Mulish_regular;
+  border-radius: 8px 8px 0px 0px;
+  font-size: 0.813rem;
+}
+
+.modal-body {padding: 2px 16px;background-color: white !important;
+  border-radius: 8px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+#bannerDropdown{
+  border-color: white !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn {
+  background-color: #f3f4f7;
+  border-color: white !important;
+  color: #a0a5ab !important;
+  border-radius: 8px !important;
+}
+
+::ng-deep .multiselect-item-checkbox{
+  font-size: 0.75rem !important;
+  font-family: Mulish_regular !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-up{
+  border-bottom: 5px solid #adadad !important;
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+}
+
+::ng-deep .multiselect-dropdown .dropdown-btn .dropdown-down{
+  border-top: 5px solid #adadad !important;
+  border-left: 5px solid transparent !important;
+  border-right: 5px solid transparent !important;
+}
+
+:host ::ng-deep .multiselect-dropdown .selected-item{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 8.5rem;
+}
+
+.dialog-headline{
+  width: 30rem;
+  font-weight: 500;
+  margin-top: -2em;
+  margin-left: -1.85em;
+  margin-right: -2em;
+  margin-bottom: 0;
+  padding-left: 1.5rem;
+  padding-top: 1rem;
+  padding: 1em;
+  background-color: #000092;
+  color:white;
+  font-size: 0.813rem !important;
+  font-family: Mulish_regular;
+  border-radius: 12px 12px 0px 0px;
+}
+
+// ::ng-deep .mat-dialog-container{
+//   width: 30rem !important;
+//   max-height: 30rem !important;
+// }
+
+.active{
+  background-color:#000091 ;
+  color: white;
+}
+
+.inactive{
+  background-color:white ;
+  color: black;
+}
+
+::ng-deep .mat-button-toggle-standalone.mat-button-toggle-appearance-standard, .mat-button-toggle-group-appearance-standard{
+  border: 0px !important;
+}
+
+:host ::ng-deep .mat-button-toggle-label-content {
+  padding: 1px 5px !important;
+  font-family: 'Mulish_bold' !important;
+  font-size: 0.700rem !important;
+}
+
+.header{
+  font-size: 0.813rem;
+  font-family: Mulish_bold
+}
+
+.font_regular{
+  font-family: Mulish_regular;
+  font-size: 0.813rem;
+}

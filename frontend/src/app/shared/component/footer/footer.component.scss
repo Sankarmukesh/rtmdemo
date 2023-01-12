@@ -1,0 +1,29 @@
+.button-color{
+  color: #101098;
+}
+.button-color-disabled{
+  color: #afb7c6;
+}
+.button-color-disabled-background{
+  color: #afb7c6!important;
+  background-color: #e7e9ef!important;
+}
+button:focus {
+  outline: none !important;
+}
+
+// Display error Message
+.footer_error_message {
+  font-size: 0.75rem;
+  font-family: Mulish_bold;
+  color: red;
+}
+.font_size_button{
+  font-size: 0.75rem;
+  font-family: Mulish_bold;
+}
+
+.button-color-enabled-background-recompute{
+  background-color: #5c5fff;
+  color: #fff !important;
+}

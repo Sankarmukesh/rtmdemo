@@ -1,0 +1,25 @@
+<div>
+  <mat-sidenav-container fullscreen>
+    <mat-sidenav [mode]='sideNavMode' [opened]='sideNavOpened' class="sidenav" style="background-color:#000091;" fixedTopGap="56">
+      <app-sidebar></app-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content [@onSideNavChange]="sidebarState" style='z-index: unset;overflow: hidden;'>
+      <mat-drawer-container>
+        <mat-drawer-content style='overflow: hidden;'>
+          <app-toolbar style='z-index: 500'></app-toolbar>
+          <div class="router_container">
+            <router-outlet></router-outlet>
+          </div>
+        </mat-drawer-content>
+      </mat-drawer-container>
+    </mat-sidenav-content>
+    <mat-sidenav #filterSidenav position="end" mode="over" style="width: 25rem;">
+      <ng-container *ngIf="current_component_show === 'Filter'">
+        <app-filter-component></app-filter-component>
+      </ng-container>
+      <ng-container *ngIf="current_component_show === 'History'">
+        <app-history></app-history>
+      </ng-container>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</div>

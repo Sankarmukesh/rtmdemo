@@ -1,0 +1,180 @@
+<mat-card class="testcard">
+  <mat-card-content class="mat-card_content">
+    <div class="header_content">Applicability Criteria</div>
+    <hr/>
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group" *ngIf="testApplicabilityFields[0].is_show">
+          <label class="label_change">Select {{testApplicabilityFields[0].banner}}</label><span
+          style="color: red;font-size: 18px;"> * </span>
+          <ng-multiselect-dropdown
+            id="bannerDropdown"
+            [placeholder]="'---Select---'"
+            [data]="banner"
+            (ngModelChange)="BannerShow($event);filterCall()"
+            (onSelectAll)="onMetricSelectAll($event)"
+            [settings]="dropdownSettingsbanner"
+            [(ngModel)]="Banner"
+            class="bannerDropdown"
+          >
+          </ng-multiselect-dropdown>
+          <ng-container *ngIf="bannershow">
+            <span style="color: red;">Please Select {{testApplicabilityFields[0].banner}}</span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group" *ngIf="testApplicabilityFields[2].is_show">
+          <label class="label_change">Select {{testApplicabilityFields[2].territory}}</label><span
+          style="color: red;font-size: 18px;"> * </span>
+          <ng-multiselect-dropdown
+            id="territoryDropdown"
+            [placeholder]="'---Select---'"
+            [data]="territory"
+            (ngModelChange)="TerritoryShow($event)"
+            (onSelectAll)="onMetricSelectAll($event)"
+            [settings]="dropdownSettingsbanner"
+            [(ngModel)]="Territory"
+            style="border-radius: 0;"
+          >
+          </ng-multiselect-dropdown>
+          <ng-container *ngIf="territoryshow">
+            <span style="color: red;">Please Select {{testApplicabilityFields[2].territory}}</span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group" *ngIf="testApplicabilityFields[1].is_show">
+          <label class="label_change">Select {{testApplicabilityFields[1].segment}}</label><span
+          style="color: red;font-size: 18px;"> * </span>
+          <img class="infoicon" *ngIf="disableCustomerChain" matTooltip="Please select customer group" [matTooltipPosition]="position.value"
+          src="assets/images/information.png" alt="sort"/>
+          <ng-multiselect-dropdown
+            id="segmentDropdown"
+            [placeholder]="'---Select---'"
+            [data]="segment"
+            (ngModelChange)="SegmentShow($event)"
+            (onSelectAll)="onMetricSelectAll($event)"
+            [settings]="dropdownSettingsbanner"
+            [(ngModel)]="Segment"
+            [disabled]="disableCustomerChain"
+            style="border-radius: 0;"
+          >
+          </ng-multiselect-dropdown>
+          <ng-container *ngIf="segmentshow">
+            <span style="color: red;">Please Select {{testApplicabilityFields[1].segment}}</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group" *ngIf="testApplicabilityFields[3].is_show">
+          <label class="label_change">Select {{testApplicabilityFields[3].storegrid}}</label><span
+          style="color: red;font-size: 18px;"> * </span>
+          <ng-multiselect-dropdown
+            id="storegridDropdown"
+            [placeholder]="'---Select---'"
+            [data]="storegrid"
+            (ngModelChange)="StoreGridShow($event)"
+            (onSelectAll)="onMetricSelectAll($event)"
+            [settings]="dropdownSettingsbanner"
+            [(ngModel)]="StoreGrid"
+            style="border-radius: 0;"
+          >
+          </ng-multiselect-dropdown>
+          <ng-container *ngIf="storegridshow">
+            <span style="color: red;">Please Select {{testApplicabilityFields[3].storegrid}}</span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group" *ngIf="testApplicabilityFields[4].is_show">
+          <label class="label_change">Select {{testApplicabilityFields[4].category}}</label><span
+          style="color: red;font-size: 18px;"> * </span>
+          <ng-multiselect-dropdown
+            id="categoryDropdown"
+            [placeholder]="'---Select---'"
+            [data]="category"
+            (ngModelChange)="CategoryShow($event)"
+            (onSelectAll)="onMetricSelectAll($event)"
+            [settings]="dropdownSettingsbanner"
+            [(ngModel)]="Category"
+            style="border-radius: 0;"
+          >
+          </ng-multiselect-dropdown>
+          <ng-container *ngIf="categoryshow">
+            <span style="color: red;">Please Select {{testApplicabilityFields[4].category}}</span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12">
+      </div>
+    </div>
+    <div class="header_content pt-2">Test Store Feature Selection</div>
+    <hr/>
+    <div class="row">
+      <div class="col-md-6 col-lg-6 col-sm-12">
+        <label class="label_change">Store Feature - 1<span class="color_red"></span></label>
+        <div>
+          <mat-radio-group aria-label="Select an option" [(ngModel)]="strfeat1">
+            <mat-radio-button value="1" [checked]="true"
+                              (change)="CurrentTest($event)">{{testApplicabilityFields[0].banner}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 col-sm-12">
+        <label class="label_change">Store Feature - 2 <span class="color_red">*</span></label>
+        <div>
+          <mat-radio-group aria-label="Select an option" [(ngModel)]="strfeat2" (change)="validateDropDowns()" [disabled]="lockStoreFeature">
+            <mat-radio-button *ngIf="userRegion !== 'DEMO'" value="1"
+                              [checked]="false">{{testApplicabilityFields[3].storegrid}}</mat-radio-button>
+            <mat-radio-button value="0" [checked]="false" class="ml-2"
+                              (change)="CurrentTest($event)">{{testApplicabilityFields[1].segment}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+    <div class="header_content pt-2">Break Even Lift Calculation</div>
+    <hr/>
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label class="label_change">Estimated Cost Impact ({{currencySymbol}})
+            <span style="color: red;font-size: 18px;"> * </span><img class="infoicon"
+                                                                     matTooltip="If the test scenario results in a increase in cost of say $100, enter as +100.  If the test scenario results in a savings in cost of say $100, enter as -100."
+                                                                     [matTooltipPosition]="position.value"
+                                                                     src="assets/images/information.png"
+                                                                     alt="sort"/></label>
+          <input class="form-control bklift_input_field" [(ngModel)]="cost" type="number" (keyup)="onKeyup1($event)" [disabled]="rtmImpact"/>
+          <p [hidden]="req_cost" style="color:red;margin-left: 3.3vw">Estimated Cost Impact Required</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label class="label_change">Annual RSV ({{currencySymbol}} in million)
+            <span style="color: red;font-size: 18px;"> * </span><img class="infoicon"
+                                                                     matTooltip="Enter the estimated / actuals of annual RSV of current / previous year"
+                                                                     [matTooltipPosition]="position.value"
+                                                                     src="assets/images/information.png"
+                                                                     alt="sort"/></label>
+          <input class="form-control bklift_input_field" [(ngModel)]="rsv_estimate" type="number"
+                 (keyup)="onKeyup($event)" [disabled]="rtmImpact"/>
+          <p [hidden]="req_rsv" style="color:red;margin-left: 3.3vw">Current Annual RSV Required</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label class="label_change">Breakeven Lift (%)
+            <span style="color: red;font-size: 18px;"></span><img class="infoicon"
+                                                                  matTooltip="Minimum lift/drop in sales to offset the increase/savings in cost, keeping the earnings constant."
+                                                                  [matTooltipPosition]="position.value"
+                                                                  src="assets/images/information.png"
+                                                                  alt="sort"/></label>
+          <input class="form-control borderradnone bklift_input_field" [disabled]="rtmImpact" [(ngModel)]="breakenlist"
+                 type="number"/>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

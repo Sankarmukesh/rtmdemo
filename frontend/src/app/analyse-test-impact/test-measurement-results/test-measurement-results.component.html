@@ -1,0 +1,31 @@
+<mat-card> <!-- [ngClass]="{'fullscreen': isCardExpanded}"-->
+  <mat-card-content class="mat-card_content">
+    <div class="header_content">Test measurement results:&nbsp;<span class="span_header">{{testName}}
+      , {{test_type}} {{createdOn}}</span>
+      <span style="margin-left: 0.5rem;float: right;" (click)="expand()">
+        <i *ngIf = "!isCardExpanded" class="fas fa-expand" style="cursor: pointer;"></i>
+        <i *ngIf = "isCardExpanded" class="fas fa-compress" style="cursor: pointer;"></i>
+      </span></div>
+    <hr/>
+    <div class="row">
+      <div class="col-md-4 col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label id="lbl_test_details_test_name" class="label_change">I would like to analyze </label>
+          <ngx-select [allowClear]="false" [(ngModel)]="selectedTargetVariable" placeholder="Select dropdown"
+                      [items]="targetVariableItems" name="TypeTest" (selectionChanges)="loadGraph($event)">
+          </ngx-select>
+        </div>
+      </div>
+    </div>
+    <div style="overflow: auto;">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="span_table">Total test stores: {{testAnalysisDataCount}} </span>
+        </div>
+      </div>
+      <app-common-table  [tableData]="Testmeasureresults" [columnHeader]="columnHeader1" [tableName] = "tableName"  (callFullScreen)="expand()" (callFilterData)="filterCall()" (callSortData) = "sortDataMatchvals($event)" [tableType]="testMeasurementResults"
+      (searchFilter)="FilterLiftanalysis($event)"></app-common-table>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>

@@ -1,0 +1,307 @@
+<div class="col-sm-12" class="headerIS"><span class="mulishBold">Summary of
+    test impact : </span><span class="headerISTitle">{{testName}}, {{test_type}}</span>
+  <div class="floatRight" *ngIf="!rtmImpact">
+    <mat-button-toggle-group #grou="matButtonToggleGroup" [(ngModel)]="showLifts" [value]="showLifts" name="showLifts">
+      <mat-button-toggle [value]="true" [ngClass]="{'not_checked': !showLifts}" aria-label="Text align left">
+        Lift %
+      </mat-button-toggle>
+      <mat-button-toggle [value]="false" [ngClass]="{'not_checked': showLifts}" aria-label="Text align center">
+        Actuals
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div class="row data-percentage" *ngIf="showLifts" style="margin-top: 0.9rem;">
+    <div id="cardChangesLift" class="col-sm-4">
+      <mat-card style="width: 101% !important;padding-left: 4%;padding-right: 0%;">
+        <div class="col" style="float: left;
+        width: 72%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Actuals lift</span>
+          <div class="mt-2">
+            <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(list_drop_number)=== -1, 'color_green': checkPositive(list_drop_number)=== 1}">
+              <mat-icon *ngIf="checkPositive(list_drop_number) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(list_drop_number)=== 1">trending_up</mat-icon>&nbsp;{{list_drop}}
+            </span>
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 13px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div id="cardChangesLift" class="col-sm-4" *ngIf="!rtmImpact">
+      <mat-card style="width: 101% !important;padding-left: 4%;">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Breakeven/Target lift</span>
+          <div class="mt-2">
+            <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': break_even_lift.length < 0, 'color_green': break_even_lift.length > 0}">
+              <mat-icon *ngIf="break_even_lift.length < 0">trending_down</mat-icon>
+              <mat-icon *ngIf="break_even_lift.length > 0">trending_up</mat-icon>&nbsp;{{break_even_lift}}%
+            </span>
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 13px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div id="cardChangesLift" class="col-sm-4" *ngIf="!rtmImpact">
+      <mat-card style="width: 100% !important;padding-left: 4%;">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Probability</span>
+          <div class="mt-2">
+            <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(probabilityPerc) === -1, 'color_green': checkPositive(probabilityPerc) === 1}">
+              <mat-icon *ngIf="checkPositive(probabilityPerc) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(probabilityPerc) === 1">trending_up</mat-icon>&nbsp;
+              {{probabilityPerc}}%</span>
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 13px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row data-percentage" *ngIf="!showLifts" style="padding-bottom: 1.5rem; padding-top: 0.5rem;">
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Inc RSV</span>
+          <div class="mt-2">
+            <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(inc_rsv_liftCheck) === -1, 'color_green': checkPositive(inc_rsv_liftCheck) === 1}">
+              <mat-icon *ngIf="checkPositive(inc_rsv_liftCheck) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(inc_rsv_liftCheck) === 1">trending_up</mat-icon>&nbsp;
+              {{inc_rsv_lift}}
+            </span>
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Inc MAC</span>
+          <div class="mt-2">
+            <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(inc_mac_liftCheck) === -1, 'color_green': checkPositive(inc_mac_liftCheck) === 1}">
+              <mat-icon *ngIf="checkPositive(inc_mac_liftCheck) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(inc_mac_liftCheck) === 1">trending_up</mat-icon>&nbsp;
+              {{inc_mac_lift}}
+            </span>
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row data-percentage" *ngIf="!showLifts">
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">RTM cost</span>
+          <div class="mt-2">
+            <span class="font-weight-bold" id="cardValue"
+              [ngClass]="{'color_red': checkPositive(costCheck) === -1, 'color_green': checkPositive(costCheck) === 1}">
+              <mat-icon *ngIf="checkPositive(costCheck) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(costCheck) === 1">trending_up</mat-icon>&nbsp;
+              {{cost}}
+            </span>
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Earnings</span>
+          <div class="mt-2">
+            <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(earningCheck) === -1, 'color_green': checkPositive(earningCheck) === 1}">
+              <mat-icon *ngIf="checkPositive(earningCheck) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(earningCheck) === 1">trending_up</mat-icon>&nbsp;
+              {{earning}}</span>
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="route_container_top" *ngIf="!rtmImpact">
+    <mat-card>
+      <div class="row">
+
+        <div class="col-sm-5">
+          <div *ngIf="probabilityPerc >= 85" style="padding-top: 18%;">
+            <img src="assets/images/go.jpg" style="height: 40px;float: left;">
+          </div>
+          <div *ngIf="(probabilityPerc >= 60 && probabilityPerc < 85)" style="padding-top: 18%;">
+            <img src="assets/images/caution.png" style="height: 40px;float: left;">
+          </div>
+          <div *ngIf="probabilityPerc < 60" style="padding-top: 18%;">
+            <img src="assets/images/nogo.jpg" style="height: 40px;float: left;">
+          </div>
+          &nbsp;&nbsp;<span class="heat_change"><b>Decision</b>:&nbsp;{{decisionValue}}</span>
+        </div>
+        <div class="col-sm-7">
+          <div id="target-probability"></div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!rtmImpact" class="row data-percentage" style="padding-top: 0.5rem;">
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Inc RSV (Per Store)</span>
+          <div class="mt-2">
+            <!-- <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(inc_rsv_liftCheckPerstore) === -1, 'color_green': checkPositive(inc_rsv_liftCheckPerstore) === 1}">
+              <mat-icon *ngIf="checkPositive(inc_rsv_liftCheckPerstore) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(inc_rsv_liftCheckPerstore) === 1">trending_up</mat-icon>&nbsp;
+              {{formatNumberWithoutDecimal(inc_rsv_liftCheckPerstore)}} {{currencySymbol}}
+            </span> -->
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Inc MAC (Per Store)</span>
+          <div class="mt-2">
+            <!-- <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(inc_mac_liftCheckPerStore) === -1, 'color_green': checkPositive(inc_mac_liftCheckPerStore) === 1}">
+              <mat-icon *ngIf="checkPositive(inc_mac_liftCheckPerStore) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(inc_mac_liftCheckPerStore) === 1">trending_up</mat-icon>&nbsp;
+              {{formatNumberWithoutDecimal(inc_mac_liftCheckPerStore)}} {{currencySymbol}}
+            </span> -->
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div *ngIf="!rtmImpact" class="row data-percentage" style="padding-top: 0.8rem;">
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">RTM cost (Per Store)</span>
+          <div class="mt-2">
+            <!-- <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(costCheckPerStore) === -1, 'color_green': checkPositive(costCheckPerStore) === 1}">
+              <mat-icon *ngIf="checkPositive(costCheckPerStore) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(costCheckPerStore) === 1">trending_up</mat-icon>&nbsp;
+              {{formatNumberWithoutDecimal(costCheckPerStore)}} {{currencySymbol}}
+            </span> -->
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div id="cardChanges" class="col-sm-3">
+      <mat-card class="actualCards">
+        <div class="col" style="float: left;
+        width: 76%;
+        padding: 0px !important;">
+          <span class="card-title mb-0" id="cardTitle">Earnings (Per Store)</span>
+          <div class="mt-2">
+            <!-- <span class="font-weight-bold" id="cardValue"
+                  [ngClass]="{'color_red': checkPositive(earningCheckPerStore) === -1, 'color_green': checkPositive(earningCheckPerStore) === 1}">
+              <mat-icon *ngIf="checkPositive(earningCheckPerStore) === -1">trending_down</mat-icon>
+              <mat-icon *ngIf="checkPositive(earningCheckPerStore) === 1">trending_up</mat-icon>&nbsp;
+              {{formatNumberWithoutDecimal(earningCheckPerStore)}} {{currencySymbol}}</span> -->
+          </div>
+        </div>
+        <div class="col-auto mt-1" style="padding: 0px !important;padding-right: 0%;">
+          <div class="icon icon-shape text-white rounded-circle icon-bg-color">
+            <i class="fas fa-bar-chart" style="color: #0f0f98;font-size: 18px"></i>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  
+
+  <div class="row route_container_top">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xl-12 width_grid">
+      <mat-card>
+        <div id="trgt-prepost" style="height: 440px"></div>
+        <div [hidden]="disableChart">
+          <div id="trgt-testcntrl"></div>
+          <div id="target-probability"></div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

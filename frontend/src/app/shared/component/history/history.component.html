@@ -1,0 +1,19 @@
+<div style="padding: 1.5rem 0 0.5rem 1rem;"><span style="font-family: 'Mulish_bold';font-size: 16px;">History of
+        Test</span><span style="float: right;cursor: pointer;font-size: 14px;padding-right: 1.5rem;" (click)="toggleClose()"><i class="fa fa-times" aria-hidden="true"></i>
+        </span></div>
+<hr />
+<perfect-scrollbar  [style.height.px]="560" style="width:100%;overflow-x: hidden;">
+<div  class="container">
+<div *ngFor="let hist of historyDetailsData;let last = last" class="circle">
+    <!-- {{title.title}} -- {{title.description}} -- {{title.tagline}} {{title.date}} -->
+    <!-- <img src="assets/images/user.png" style="height: 50px;margin: 5px 0px 0px 0.8rem;border-radius: 50%;float: left;" /> -->
+    <div class = "initials">{{getInitials(hist.Name)}}</div>
+    <div style="padding-bottom: 5px;"><span style="padding: 0px 0px 15px 15px;font-size: 11px;">{{dateConvert(hist.created_at) | date:'d MMM  y'}}</span><span style="padding: 1rem;font-size: 10.5px;font-weight:bold;color: rgba(0,0,0,.54);padding-left: 5px;">{{dateConvert(hist.created_at) | date:'h:mm a'}}</span><br /></div>
+    <span style="padding: 1rem;font-size: 13px;font-weight: bolder;">{{hist.Name}}</span>
+    <div style="padding-left: 5.8rem;padding-top: 0.8rem;color: rgba(0,0,0,.54);"><span
+            style="font-size: 13px;font-weight: bold;">{{hist.action_performed}}</span></div><br />
+            <!-- <div class="separator"></div> -->
+            <div class="vertical_dotted_line"  [ngClass]="{ last: last }"></div>
+</div>
+</div>
+</perfect-scrollbar>

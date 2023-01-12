@@ -1,0 +1,291 @@
+.analyseimpactTipsMessage{
+    font-size: 12px;
+    margin-top: 2% !important;
+    width: 85%;
+}
+
+.button-color-enabled-background{
+  background-color: #000091;
+  color: #fff !important;
+}
+
+.label_change{
+    color: black;
+    line-height: 1.25rem;
+    margin-bottom: 10px;
+    font-family: Mulish_bold !important;
+  }
+  
+  .form-control{
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 200;
+    background-color: #f3f4f7;
+    border-radius: 0.5rem;
+    border-color: white !important;
+  }
+
+  ::ng-deep .ngx-select__toggle {
+    background-color: #f3f4f7;
+    border-color: white !important;
+    height: 38px;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  :host ::ng-deep .ngx-select__toggle{
+    background-color: #f3f4f7!important;
+  }
+
+//   :host .route_container_right{
+//   padding-bottom: 15rem;
+// }
+
+.radio_label{
+  color: black;
+  font-family: Mulish_bold !important;
+}
+
+.radio_label_ia{
+  color: black;
+  font-family: Mulish_regular !important;
+}
+
+.side_menu_analyse{
+  font-family: Mulish_regular !important;
+  font-size: 0.75rem !important;
+  width: 100%;
+  text-align: left;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
+////Modal//////
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.analyse-button-area {
+  width: 98%;
+  margin-left: 1.2%;
+  margin-top: 2%;
+}
+
+.pcHeadCard{
+  height: 22rem;
+}
+
+#pcHeadDiv{
+  padding-bottom: 1rem;
+}
+
+.pcSpanHeader{
+  font-family: Mulish_bold !important;
+}
+
+.pcSpanHeader2{
+  font-family: Mulish_regular !important;
+  font-size: 0.8rem;
+}
+
+#rowDiv{
+  margin-left: 0rem;
+}
+
+#rowDiv2{
+  margin-left: 0rem;
+}
+
+.pcDDHeader{
+  font-size: 13px;
+  font-family: Mulish_regular !important;
+  padding-left: 1rem;
+}
+.font_size_button{
+  font-size: 0.75rem;
+  font-family: Mulish_bold;
+}
+
+::ng-deep .mat-button-toggle-checked.mat-button-toggle-appearance-standard{
+  color: #000091!important;
+}
+
+::ng-deep .mat-button-toggle-standalone.mat-button-toggle-appearance-standard, .mat-button-toggle-group-appearance-standard {
+  border-radius: 8px!important;
+}
+
+:host ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-checked {
+  background-color: #2fd1aa !important;
+  color: #000091 !important;
+  border-radius: 5px;
+}
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+   padding: 1px 5px !important;
+   font-family: Mulish_regular;
+   font-size: 0.813rem;
+}
+
+::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  color: #6f7e95!important;
+}
+
+::ng-deep .mat-button-toggle-checked .mat-button-toggle-label-content {
+  background-color: #000091!important;
+  color: white !important;
+}
+
+// :host ::ng-deep .mat-button-toggle-appearance-standard{
+//   color: #6f7e95!important;
+//   background: #f3f4f7!important;
+// }
+
+::ng-deep .mat-button-toggle-label-content {
+  line-height: 26px!important;
+}
+
+.toggle_icon{
+  font-size: 1rem;
+  padding-top: 3px;
+}
+
+::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle{
+  border-left: none!important;
+}
+
+// .not_checked{
+//   color: #6f7e95!important;
+//   background: #f3f4f7!important;
+// }
+
+:host ::ng-deep .highcharts-legend{
+  font-family: Mulish_bold !important;
+}
+
+:host ::ng-deep .highcharts-axis-labels{  
+  font-family: Mulish_regular !important;
+}
+
+:host ::ng-deep .highcharts-tooltip{
+  font-family: Mulish_regular !important;
+}
+
+:host ::ng-deep .highcharts-data-labels{
+  font-family: Mulish_regular !important;
+}

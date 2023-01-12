@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="toolbar.component.scss">
+<mat-toolbar id="toolbar" class="mat-elevation-z4">
+  <div *ngIf="searchDisplay && !createNewTest" id="search">
+    <!-- Search Start-->
+    <div class="has-search pl-4">
+      <ng-autocomplete [data]="testData" [searchKeyword]="keyword" placeholder="&#xF002;&nbsp; Search"
+                       (selected)='selectEvent($event)' (inputChanged)='onChangeSearch($event)'
+                       (inputFocused)='onFocused($event)'
+                       historyIdentifier="testData" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
+                       style="font-family:Mulish_regular, FontAwesome">
+      </ng-autocomplete>
+
+      <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item.test_name"></a>
+      </ng-template>
+
+      <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+      </ng-template>
+    </div>
+    <!-- Search End -->
+  </div>
+  <div *ngIf="!searchDisplay && createNewTest">
+    <span class="toolbar_text"><b>Create New Test</b></span>
+  </div>
+  <div *ngIf="!searchDisplay && !createNewTest">
+    <span class="toolbar_text"><b>Analyse Test Impact</b></span>
+  </div>
+  <div style="float: left"></div>
+  <span class="example-spacer"></span>
+  <div class="cursor-pointer" [matMenuTriggerFor]="notification">
+    <i [attr.data-count]="notificationsLength" class="far fa-bell fa-stack" style="font-size: 1.5rem;"></i>
+  </div>
+  <div style="border-left: 1px solid black;margin-right: 1.2rem; height: 1.5rem;"></div>
+  <div class="cursor-pointer" style="margin-right:2.2rem" [matMenuTriggerFor]="logout">
+    <i class="far fa-user-circle" style="font-size: 1.5rem;"></i>
+    <span style="font-size: 1rem;">{{ loggedUser }}</span>
+  </div>
+  <mat-menu #logout="matMenu">
+    <div class="mat-menu-item" (click)="logoutFunction()">
+      <i class="fas fa-sign-out-alt" style="font-size: 1.2rem"></i> <span>Logout</span>
+    </div>
+  </mat-menu>
+  <mat-menu #notification="matMenu" style="overflow-x: hidden;">
+    <div id="notify" style="width: 22rem;">
+      <div style="padding: 5%;float: left;width: 50%;"><span
+        style="font-weight: bold;font-size: 12px;font-family: Mulish_bold !important;">Notifications
+          ({{notificationData.length}})</span></div>
+      <div style="padding: 5%;float: right;width: 50%;text-align: right;"><span
+        style="color: blue;font-size: 12px;font-family: Mulish_bold !important;cursor: pointer;"
+        (click)="markAllAsRead()"><u>{{(notificationData.length > 0) ? 'Mark all as read' : ''}}</u></span></div>
+      <div class="clearfix"></div>  
+      <ng-container *ngFor="let noti of notificationData" class="historyMenu">
+        <button class="mat-menu-item" style="height: 6rem;white-space: normal;" (click)="markAsRead(noti.test_id)">
+          <div *ngIf="noti.imageshow == 'true'"><img src="../../../../assets/images/user.png"
+                                                     style="height: 40px;margin: 5px 10px 0px 0px;border-radius: 50%;float: left;"/>
+          </div>
+          <div style="padding-left: 1rem;"><span
+            style="font-size: 12px;font-family: Mulish_regular !important;"><b>Test #{{noti.test_id}}</b>{{noti.message}}</span>
+          </div>
+          <div style="padding-top: 0.5rem;padding-left: 1rem;"><span
+            style="font-size: 11px;color: gray;font-family: Mulish_regular !important;">{{dateConvert(noti.date)}}</span>
+          </div>
+        </button>
+        <hr style="margin-top: 0rem;margin-bottom: 0rem;"/>
+      </ng-container>
+      <ng-container *ngIf="notificationData.length == 0">
+        <span style="padding-left: 5.5rem;">No Notification found</span>
+      </ng-container>
+    </div>
+  </mat-menu>
+</mat-toolbar>

@@ -1,0 +1,44 @@
+{
+    "DEMO": {
+        "fields" : [
+            { "banner" : "Customer Group", "is_show": true  },
+            { "segment" : "Customer Chain", "is_show": true  },
+            { "territory" : "Territory", "is_show": true  },
+            { "storegrid" : "Sub Channel", "is_show": true  },
+            { "category" : "Category", "is_show": false  },
+            { "store_grid" : "Sub Channel", "is_show": true  }
+        ],
+        "currency" : "$",
+        "OutletSurfaceAreaUnit": "(in sq.ft.)",
+        "overall_segment": "Overall_Segment",
+        "test_store_id": "Customer Number",
+        "territory": "Territory ID",
+        "control_store_id": "Control Store Id",
+        "segment": "Customer_Chain",
+        "storegrid": "Sub_Channel",
+        "partner_id": "Customer_Number",
+        "partner_id_name": "Customer_Number",
+        "banner": "Customer_Group",
+        "filterFeilds":[
+            {
+                "testMeasurement":[
+                    { "key" : "Customer_Group", "is_filter": true, "is_linked": true, "show_name": "Customer Group", "filter_key":"Customer_Group"},
+                    { "key" : "Territory", "is_filter": true, "is_linked": true, "show_name": "Territory", "filter_key":"Territory"  },
+                    { "key" : "Customer_Chain", "is_filter": true, "is_linked": true, "show_name": "Customer Chain", "filter_key":"Customer_Chain"},
+                    { "key" : "Store Number", "is_filter": false, "is_linked": true , "show_name": "Store Number", "filter_key": "store_number" },
+                    { "key" : "Customer_Number", "is_filter": true, "is_linked": false , "show_name": "Customer Number", "filter_key":"Customer_Number"}
+                ],
+                "dashBoard": [
+                    {"key": "Status", "is_filter": true, "is_linked": false, "show_name": "Status", "data": ["Draft Saved", "Test Running", "Test Analysis", "Test Planned"], "filter_key":"test_status"},
+                    {"key": "Test Type", "is_filter": true, "is_linked": false, "show_name": "Test Type", "data": ["Frequency Test", "Duration Test", "Activity Test", "RTM Impact Test", "Others"], "filter_key":"test_type"},
+                    {"key": "Pre Window", "is_filter": false, "is_linked": false, "show_name": "Pre Window", "filter_key":""}
+                ],
+                "select_test_stores": [
+                    {"key": "banner", "is_filter": true, "is_linked": false, "show_name": "Customer Group", "filter_key":"banner"},
+                    {"key": "Territory", "is_filter": true, "is_linked": false, "show_name": "Territory", "filter_key":"Territory"},
+                    {"key": "store_id", "is_filter": false, "is_linked": false, "show_name": "Customer Number", "filter_key":"store_id"}
+                ]
+            }
+        ]
+    }
+}

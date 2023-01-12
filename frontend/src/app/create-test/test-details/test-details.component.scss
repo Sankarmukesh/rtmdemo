@@ -1,0 +1,108 @@
+.label_change{
+  color: black;
+  line-height: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.form-control{
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.813rem;
+  font-weight: 200;
+  background-color: #f3f4f7;
+  border-radius: 0.5rem;
+  border-color: white !important;
+}
+
+::ng-deep .ngx-select__toggle {
+  background-color: #f3f4f7;
+  border-color: white !important;
+  height: 38px;
+  border-radius: 0.5rem;
+  font-size: 0.813rem;
+}
+
+::ng-deep .ngx-select__item{
+  font-size: 0.75rem;
+}
+
+.font_weight_bold{
+  font-weight: bold;
+}
+
+::ng-deep .bs-datepicker-head button.next span, .bs-datepicker-head button.previous span{
+  color: black !important;
+}
+
+::ng-deep .bs-datepicker-head button.current{
+  color: black !important;
+}
+
+::ng-deep .theme-default .bs-datepicker-head{
+  background-color: #ffffff !important;
+}
+
+::ng-deep .bs-datepicker-head button.next, .bs-datepicker-head button.previous{
+  color: black !important;
+}
+
+::ng-deep .bs-datepicker-body{
+  border: none!important;
+  border-top: 1px solid #e9edf0 !important;
+}
+
+::ng-deep .bs-datepicker-body table td span[class*="select-"], .bs-datepicker-body table td[class*="select-"] span{
+  border-radius: 20% !important;
+  background-color: #2e91fb;
+}
+
+select option {
+  margin: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+:host ::ng-deep .ngx-select__toggle{
+  background-color: #f3f4f7!important;
+}
+
+:host ::ng-deep .ngx-select__toggle{
+  color: #495057 !important;
+}
+
+::ng-deep.bs-datepicker-head button.next, .bs-datepicker-head button.previous{
+  color: black!important;
+}
+
+.testDetails{
+  font-family: Mulish_regular !important;
+}
+
+.headersValue{
+  font-family: Mulish_bold !important;
+  color : black !important;
+  font-size: 0.75rem;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #b3b7bf;
+}
+
+::ng-deep .previous{
+  color : black !important;
+}
+::ng-deep .bs-datepicker-head button{
+  color : black !important;
+}
+
+.pretest-weeks {
+  margin-left: 76%;
+  font-family: Mulish_regular !important;
+  color: black !important;
+  font-size: smaller;
+}
+
+:host ::ng-deep.ngx-select__placeholder{
+  line-height: 1.6rem !important;
+}

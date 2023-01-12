@@ -1,0 +1,105 @@
+<mat-card>
+  <mat-card-content class="mat-card_content">
+    <div class="header_content">Enter Test Details</div>
+    <hr/>
+    <form #testDetails="ngForm" (change)="formChange()"  autocomplete="on">
+      <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label id="lbl_test_details_test_name" class="label_change">Enter Test Name <span class="required_font"> *
+              </span><img class="infoicon" matTooltip="Enter the Test Name Here" [matTooltipPosition]="position.value"
+                          src="assets/images/information.png" alt="sort"/></label>
+            <input type="text" autocomplete="off" class="form-control" id="txt_test_details_test_name"
+                   [(ngModel)]="testDetailsValue.TestName" name="TestName" #TestName="ngModel"
+                   (change)="checkTestName()" autocomplete="off"
+                   placeholder="Enter Test Name" maxlength="255" required>
+            <ng-container>
+              <div class="testname_err_msg" *ngIf="duplicateTestName">Duplicate Test Name not Allowed</div>
+              <div class="testname_err_msg" *ngIf="testNameValid">Please Enter Test Name</div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label id="lbl_test_details_typetext" class="label_change">Select Type of Test <span class="required_font"> *
+              </span><img class="infoicon" matTooltip="Select Type of Test Here" [matTooltipPosition]="position.value"
+                          src="assets/images/information.png" alt="sort"/></label>
+            <ngx-select
+              [(ngModel)]="testDetailsValue.TypeTest"
+              [allowClear]="false" placeholder="Select Dropdown"
+              [items]="typetest" required #TypeTest="ngModel" name="TypeTest" (selectionChanges)="checkTypeOfTest($event)">
+            </ngx-select>
+            <ng-container>
+              <div class="testname_err_msg" *ngIf="typeTestValid">Please Select Type Test</div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label id="lbl_test_details_target_variable" class="label_change">Target Variable <span
+              class="required_font"> *
+              </span><img class="infoicon" matTooltip="Select Target Variable Here"
+                          [matTooltipPosition]="position.value" src="assets/images/information.png" alt="sort"/></label>
+            <ngx-select
+              [(ngModel)]="testDetailsValue.TargetVariable"
+              [allowClear]="false" placeholder="Select Dropdown"
+              [items]="plantest" required #TargetVariable="ngModel" name="TargetVariable">
+            </ngx-select>
+            <ng-container>
+              <div class="testname_err_msg" *ngIf="targetValid">Please Select Target Variable</div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-12">
+          <label id="lbl_test_details_brief_description" class="label_change">Enter Brief Description</label>
+          <textarea type="text" id="txt_test_details_brief_description" class="md-textarea form-control"
+                    [(ngModel)]="testDetailsValue.Description" name="Description" placeholder="Enter Description"
+                    maxlength="255">
+            </textarea>
+        </div>
+        <div class="col-md-8 col-lg-8 col-sm-12">
+          <label id="lbl_test_details_details_description" class="label_change">Enter Additional Details</label>
+          <textarea type="text" id="txt_test_details_details_description" class="md-textarea form-control"
+                    [(ngModel)]="testDetailsValue.AddDetails" name="AddDetails"
+                    placeholder="Enter Additional Details"  maxlength="255"></textarea>
+        </div>
+      </div>
+      <div class="row pt-3">
+        <div class="col-md-4 col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label id="lbl_test_details_pre_test" class="label_change">Pre-Test Window<span class="required_font"> *
+              </span><img class="infoicon" matTooltip="Select Pre Test Date" [matTooltipPosition]="position.value"
+                          src="assets/images/information.png" alt="sort"/></label>
+            <input id="txt_test_details_pre_test" placeholder="From - To" (bsValueChange)="pretestDate($event)"
+                   bsDaterangepicker triggers="keydown click" class="form-control" [(bsValue)]="pretest"
+                   autocomplete="off"
+                   [minDate]="minPreTest" [maxDate]="maxPreTest"
+                   [bsConfig]="{ containerClass : 'theme-default', rangeInputFormat: 'DD MMM, YYYY' }" required readonly>
+            <div *ngIf="preDays" class="pretest-weeks">{{preDays}} Weeks</div>
+            <ng-container>
+              <div class="testname_err_msg" *ngIf="pretestValid">{{preTestMessage}}</div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-sm-12">
+          <div class="form-group">
+            <label id="lbl_test_details_post_test" class="label_change">Post-Test Window<span class="required_font"> *
+              </span><img class="infoicon" matTooltip="Select Post Test Date" [matTooltipPosition]="position.value"
+                          src="assets/images/information.png" alt="sort"/></label>
+            <input id="txt_test_details_post_test" placeholder="From - To"
+                   (bsValueChange)="posttestDate($event)" bsDaterangepicker triggers="keydown click"
+                   class="form-control" [(bsValue)]="posttest"
+                   [minDate]="minPostTest" [maxDate]="maxPostTest" autocomplete="off" name="posttest"
+                   [bsConfig]="{ containerClass : 'theme-default', rangeInputFormat: 'DD MMM, YYYY'}" required readonly>
+            <div *ngIf="postDays" class="pretest-weeks">{{postDays}} Weeks</div>
+            <ng-container>
+              <div class="testname_err_msg" *ngIf="posttestValid">{{postTestMessage}}</div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

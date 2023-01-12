@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="20000" name="pdfkit-javascript-delay"/>
+  <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highcharts.js"></script>
+  <script src="../js/series-label.js"></script>
+  <script src="../js/exporting.js"></script>
+  <script src="../js/export-data.js"></script>
+  <script>
+    'use strict';
+    (function(setLineDash) {
+    CanvasRenderingContext2D.prototype.setLineDash = function() {
+    if(!arguments[0].length){
+        arguments[0] = [1,0];
+    }
+    // Now, call the original method
+    return setLineDash.apply(this, arguments);
+    };
+    })(CanvasRenderingContext2D.prototype.setLineDash);
+    Function.prototype.bind = Function.prototype.bind || function (thisp) {
+    var fn = this;
+    return function () {
+    return fn.apply(thisp, arguments);
+    };
+    };
+  </script>
+<style>
+
+   body {
+      font-family: Arial;
+      color: rgb(20, 17, 17);
+   }
+
+    * {
+  box-sizing: border-box;
+}
+
+.row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+  
+.column {
+  float: left;
+  width: 48%;
+  padding: 5px;
+  font-size: xx-small;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+ul li:before
+{
+  content:'\2713';
+  display:inline-block;
+  color:red;
+  padding:0 6px 0 0;
+  }
+ul li{list-style-type:none;font-size:1em;}
+
+#customers_1 {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 335px;
+    height: 250px;
+    }
+
+    #customers_1 td, #customers_1 th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    }
+
+    #customers_1 tr:nth-child(even){background-color: #e7e7f0;}
+    #customers_1 tr:nth-child(odd){background-color: #cbcbdf;}
+
+    #customers_1 tr:hover {background-color: #ddd;}
+
+    #customers_1 th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0000a0;
+    color: white;
+    }
+</style>
+
+
+</head>
+<body>
+
+  <div class="row probabiltychart">
+    <div id="container1" ></div>
+    <script type="text/javascript">
+      EXPORT_WIDTH = 1000;
+        function save_chart(chart) {
+            var render_width = EXPORT_WIDTH;
+            var render_height = render_width * 400 / 800
+
+        // Get the cart's SVG code
+        var svg = chart.getSVG({
+            exporting: {
+                sourceWidth: 800,
+                sourceHeight: 400
+            }
+        });
+
+        // Create a canvas
+        var canvas = document.createElement('canvas');
+        canvas.height = render_height;
+        canvas.width = render_width;
+        document.body.appendChild(canvas);
+
+        // Create an image and draw the SVG onto the canvas
+        var image = new Image;
+        image.onload = function() {
+            canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+        };
+        image.src = 'data:image/svg+xml;base64,' + window.btoa(svg);
+        $("#container1").remove()
+        $("canvas").css("margin-top", "-125px");
+        $("canvas").css("height", "345px");
+        $("canvas").addClass('canvaschrt')
+        $('.canvaschrt').appendTo(".probabiltychart")
+    }
+
+    var colors = [];
+    colors[0] = 'green';
+    colors[1] = 'orange';
+    colors[2] = 'red';
+    var probabilty_value = 87
+    
+    $(function() {
+    $('#container1').highcharts({
+        exporting: {
+            enabled: false
+        },
+        title: {
+            text: ''
+        },
+        subtitle: {
+            text: ''
+        },
+        chart: {
+          type: 'bar',
+          height: 400,
+          spacingTop: 210,
+          spacingRight: 80,
+          spacingLeft: 80
+        },
+          yAxis: {
+            tickInterval: 5,
+                    min: 0,
+                    max: 100,
+                    gridLineWidth: 0,
+                    title: {
+                      text: 'Probability Scale'
+                    },
+                    labels: {
+                      formatter: function() {
+                        if (this.value == 0 || this.value == 60 || this.value == 85 || this.value == 100) {
+                          return this.value + '%';
+                        }
+                      }
+                    }
+            },
+          xAxis: {
+            categories: [],
+            visible: false
+          },
+          credits: {
+            enabled: false
+          },
+          colors: colors,
+          legend: 
+          {
+            enabled: false,
+            reversed: true
+          },
+          plotOptions: {
+                  series: {
+                    stacking: 'normal',
+                    pointWidth: 35
+                  }
+                },
+          series: [
+              {
+                name: '',
+                data: [
+                  {
+                    y: 15,
+                    tip: ''
+                  }
+                ]
+              },
+              {
+                name: '',
+                data: [
+                  {
+                    y: 25,
+                    tip: ''
+                  }
+                ]
+              },
+              {
+                name: '',
+                data: [
+                  {
+                    y: 60,
+                    tip: ''
+                  }
+                ]
+              },
+              {
+                name: 'indicator',
+                data: [probabilty_value],
+                type: 'scatter',
+                color: '#0000a0',
+                marker: {
+                  symbol: 'circle'
+                }
+              }
+            ]
+        });
+      });
+
+    $( document ).ready(function() {
+      save_chart($('#container1').highcharts());
+    });
+    </script>
+  </div>
+
+  <div class="row" style="padding-top: 30px;">
+    <div class="column">
+      <table id="customers_1">
+          <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>Test Vs Control Stage</td>
+            <td>+1.03%</td>
+          </tr>
+          <tr>
+            <td>Breakeven Lift</td>
+            <td>0.26%</td>
+          </tr>
+          <tr>
+            <td>Probability (Lift > Breakeven)</td>
+            <td>87%</td>
+          </tr>
+          <tr>
+            <td>Decision</td>
+            <td>Implement the change</td>
+          </tr>
+      </table>
+    </div>
+    <div class="column">
+      <p style="    font-size: 16px;"><strong>Final Decision on Rolling out to the market</strong></p>
+      
+        <img src="../img/go.jpg" style="height: 85px;margin-top: 10px;    margin-left: 50px;">
+      
+    </div>
+</div>
+  
+  <div class="row">
+    <p style="font-weight: 600;">Comments</p>
+    <textarea rows="4" cols="50" name="comment" form="usrform" style="width: 700px;"></textarea>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+<div *ngIf="suggestionView">
+  <mat-card class="fontMulishRegular">
+    <mat-card-content class="mat-card_content">
+      <div class="header_content">Suggestion tool for test stores</div>
+      <hr />
+      <span style="font-size: 13px;">What you want to calculate the lift on? </span>
+      <img class="infoicon" matTooltip="Choose the target variable" [matTooltipPosition]="position.value"
+        src="assets/images/information.png" alt="sort" /><br />
+      <div class="row">
+        <div class="col-md-12">
+          <mat-radio-group class="space-radio" [(ngModel)]="selectTargetVariableRadio">
+            <mat-radio-button value="1" [checked]="false" class="ml-2">RSV</mat-radio-button>
+            <mat-radio-button value="2" [checked]="false" class="ml-2">Volume</mat-radio-button>
+          </mat-radio-group>
+          <br />
+        </div>
+      </div>
+
+      <span style="font-size: 13px;">Already know my</span><br />
+      <div class="row">
+        <div class="col-md-12">
+          <mat-radio-group class="space-radio2" [(ngModel)]="alreadyKnowRadio" (ngModelChange)="selectAKRadioChange()">
+            <!-- (ngModelChange)="selectAKRadioChange()"-->
+            <mat-radio-button value="1" [checked]="false" class="ml-2">Margin of error %</mat-radio-button>
+            <mat-radio-button value="2" [checked]="false" class="ml-2">No of test stores</mat-radio-button>
+          </mat-radio-group>
+          <br />
+          <div *ngIf="alreadyKnowRadio==1">
+            <input class="form-control" type="number" id="margin-error" [(ngModel)]="knownMarginOfError"
+              placeholder="Enter the margin of error %" style="width: 25% !important" />
+          </div>
+          <div *ngIf="alreadyKnowRadio==2">
+            <input class="form-control" type="number" id="no-of-teststore" [(ngModel)]="knownNoOfError"
+              placeholder="Enter the no.of teststore" style="width: 25% !important" />
+          </div>
+          <br />
+          <hr />
+        </div>
+      </div>
+      <div class="row pt-2 pb-2">
+        <div class="col-12">
+          <span style="float: left;color: red;">{{generateValidationMessage}}</span>
+          <button mat-raised-button class="font_size_button"
+            style="float: right;background-color: #000091; color: white;" (click)="generateSuggestion()"><b>Generate</b>
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <mat-card class="fontMulishRegular" [hidden]="!suggestionViewResult" style="border-radius: 15px 15px 15px 15px !important;
+  height: 4rem;">
+    <mat-card-content class="mat-card_content">
+      <div>
+        <div *ngIf="alreadyKnowRadio == 1"><span style="font-size: 13px;width: 75%;
+      float: left;">We recommend having <b>{{resultNoOfStore}} test stores</b> to reach close to
+            {{resultMarginOfError}}% margin of error</span></div>
+        <div *ngIf="alreadyKnowRadio == 2"><span style="font-size: 13px;width: 75%;
+        float: left;">We recommend having <b>{{resultMarginOfError}}% margin of error</b> to reach close to
+            {{resultNoOfStore}} test stores</span></div>
+        <!-- <div (click)="viewInsights()" style="float: right;color: blue;cursor: pointer;font-size: 12px;">View insights&nbsp;&nbsp;<div style="float: right;"><mat-icon *ngIf = "showInsights" style="color: blue;">keyboard_arrow_up</mat-icon>
+         <mat-icon *ngIf = "!showInsights" style="color: blue;">keyboard_arrow_down</mat-icon></div></div> -->
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card [hidden]="!suggestionViewResult" class="fontMulishRegular" style="height: 33rem !important;border-radius: 0px 0px 15px 15px !important;
+  bottom: 1rem;">
+    <!--[hidden]="!suggestionViewResult || !showInsights"-->
+    <mat-card-content class="mat-card_content">
+
+      <hr />
+      <div [hidden]="!suggestionViewResult">
+        <!--*ngIf = "showInsights"-->
+        <div style="width: 40%;float: left;">
+          <table style="font-family: Mulish_regular !important;" mat-table matSort [dataSource]="powerTable"
+            class="mat-elevation-z8" (matSortChange)="sortDataQuickSuggestionTable($event)">
+            <!-- Power % Column -->
+            <ng-container matColumnDef="power">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="remove_border">
+                <span class="table-header-label">Power %</span>
+              </th>
+              <td mat-cell *matCellDef="let row"
+                style="white-space: nowrap; text-align: center;font-size: 11px !important;">
+                <span
+                  [ngClass]="{'font_green': (title == 'Margin of error' && row.noOfStore >= resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore >= resultNoOfStore) , 'font_normal': (title == 'Margin of error' && row.noOfStore < resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore < resultNoOfStore)}">{{
+                  row.power }}</span>
+              </td>
+            </ng-container>
+            <!-- Number of store Column -->
+            <ng-container matColumnDef="number_of_stores">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="remove_border">
+                <span class="table-header-label" style="padding-left: 8px">{{title}}</span>
+              </th>
+              <td mat-cell *matCellDef="let row"
+                style="white-space: nowrap; text-align: center;font-size: 11px !important;">
+                <span
+                  [ngClass]="{'font_green': (title == 'Margin of error' && row.noOfStore >= resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore >= resultNoOfStore) , 'font_normal': (title == 'Margin of error' && row.noOfStore < resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore < resultNoOfStore)}">{{
+                  row.noOfStore }}</span><span
+                  [ngClass]="{'font_green': (title == 'Margin of error' && row.noOfStore >= resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore >= resultNoOfStore) , 'font_normal': (title == 'Margin of error' && row.noOfStore < resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore < resultNoOfStore)}"
+                  *ngIf="title=='Margin of error'">%</span>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsLoadSaved;sticky: true"
+              style="white-space: nowrap !important;height: 38px !important;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsLoadSaved" style="height: 38px !important;"
+              [ngClass]="{'background-color-green': (title == 'Margin of error' && row.noOfStore >= resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore >= resultNoOfStore), '': (title == 'Margin of error' && row.noOfStore < resultMarginOfError) || (title == 'Number of test stores' && row.noOfStore < resultNoOfStore)}"
+              (click)="selection.toggle(row)">
+            </tr>
+          </table>
+          <ul class="legend">
+            <li><span class="acceptableRange"></span> <span class="arTxt">Acceptable Range</span></li>
+          </ul>
+        </div>
+        <div style="width: 60%;float: right;">
+          <div id="power-chart"></div>
+          <ul class="legend2">
+            <li><span class="acceptableRange2"></span> <span class="arTxt2">Acceptable Range</span></li>
+          </ul>
+        </div>
+      </div>
+      <br />
+    </mat-card-content>
+  </mat-card>
+  <br>
+</div>
+
+<ng-container *ngIf="!showComprassion">
+  <div *ngIf="!suggestionView">
+    <mat-card style="margin-bottom: 2%;" class="fontMulishRegular">
+      <div>
+        <span>
+          <b>
+            Not sure how to select test stores? &nbsp;
+          </b>
+        </span>
+        <span style="color:#66768f">
+          Use our quick suggestion tool
+        </span>
+        <img src="assets/images/Icons_side arrow.png" (click)="navigateSuggestedTool()" class="arrow_navigate">
+      </div>
+    </mat-card>
+    <ng-container *ngIf="!isRTMImpactTest">
+      <mat-card class="fontMulishRegular" style="margin-top:1.5rem">
+        <mat-card-content class="mat-card_content">
+
+          <div>
+            <span style="font-weight: bold;font-size: 16px;">Enter the test config details
+            </span>
+            <hr />
+          </div>
+          <div *ngIf="!isRTMImpactTest">
+            <div>
+              <span style="font-weight: bold;font-size: 16px;">Select test stores
+              </span>
+            </div>
+            <hr />
+            <span style="font-size: 13px;">How would you like to select test stores?</span><br />
+            <div class="row">
+              <div class="col-md-12" style="padding-top: 12px;padding-bottom: 12px">
+                <mat-radio-group [(ngModel)]="selectTestStores" (ngModelChange)="selectRadioChange()">
+                  <mat-radio-button value="1" [checked]="true">Suggested by tool</mat-radio-button>
+                  <!-- <mat-radio-button value="2" [checked]="false" class="ml-2">Manually</mat-radio-button>
+                  <mat-radio-button value="3" [checked]="false" class="ml-2">Uploading an excel list</mat-radio-button> -->
+                </mat-radio-group>
+                <br />
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="selectTestStores !== '3'">
+            <div class="row" *ngIf="showSuggestedByTool">
+              <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="form-group">
+                  <input type="checkbox" [(ngModel)]="ConfLev" [disabled]="!cnfcheck"
+                    (change)="ConfLevels(ConfLev?'A':'B')" name="conf">
+                  <label id="exampleInputEmail1" class="label_change">Confidence Level
+                    <img class="infoicon"
+                      matTooltip="Confidence level determines the quality of test, in other words, it tells with how much certainty the test results can be implemented in the market. Recommended level: 85%"
+                      [matTooltipPosition]="position.value" src="assets/images/information.png" alt="sort" />
+                  </label>
+                  <input type="number" class="form-control borderradnone" id="exampleInputEmail1"
+                    placeholder="Enter Confidence Level" (keypress)="omit_char($event);" (keydown)="ConfShow()"
+                    [(ngModel)]="ConfLevel" (keyup)="callCompute()" [disabled]="!ConfLev || ConfLev == 0">
+                  <ng-container *ngIf="confshow">
+                    <p><span style="color: red;">Please Enter Confidence Level</span></p>
+                  </ng-container>
+                  <ng-container *ngIf="confrangeshow">
+                    <p><span style="color: red;">Please Enter a Confidence Level between 70 -99</span></p>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="form-group">
+                  <input type="checkbox" [(ngModel)]="Margin" [disabled]="!mrgerrheck"
+                    (change)="MarginError(Margin?'C':'D')" name="margin">
+                  <label class="label_change">Margin of Error
+                    <img class="infoicon"
+                      matTooltip="Minimum difference of the Target variable to be observed between test and control group. (Recommended range - 3% to 4%)"
+                      [matTooltipPosition]="position.value" src="assets/images/information.png" alt="sort" />
+                  </label>
+                  <input type="number" class="form-control borderradnone" id="exampleInputEmail1"
+                    placeholder="Enter Margin of Error" (keydown)="ErrorShow()" (keypress)="omit_char($event);"
+                    [(ngModel)]="NoofError" (keyup)="callCompute()" [disabled]="!Margin || Margin == 0">
+                </div>
+                <ng-container *ngIf="errorshow">
+                  <span style="color: red;">Please Enter No of Error</span>
+                </ng-container>
+              </div>
+              <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="form-group">
+                  <input type="checkbox" [(ngModel)]="TestStore" [disabled]="!testrheck"
+                    (change)="TestStores(TestStore?'E':'F')" name="teststores">
+                  <label class="label_change">Number of Test store
+                    <img class="infoicon"
+                      matTooltip="Choose the number of stores which gives a high confidence level and a decent measurement of error. (Minimum sample size - 30 to 40)"
+                      [matTooltipPosition]="position.value" src="assets/images/information.png" alt="sort" />
+                  </label>
+                  <input type="number" class="form-control borderradnone" id="exampleInputEmail1"
+                    placeholder="Enter Number of test stores" (keydown)="TestStoreShow()" [(ngModel)]="NoofTestStore"
+                    (keyup)="callCompute()" [disabled]="!TestStore || TestStore == 0">
+                </div>
+                <ng-container *ngIf="teststoreshow">
+                  <span style="color: red;">Please Enter No of Test Stores</span>
+                </ng-container>
+                <ng-container *ngIf="validate_teststore">
+                  <span style="color: red;">{{testStore_Errormsg}}</span>
+                </ng-container>
+              </div>
+            </div>
+            <p *ngIf="formError" class="option_error">You must select and enter values for any two options</p>
+            <br>
+            <hr>
+            <div class="row pt-2 pb-2">
+              <div class="col-6">
+                <!-- <ng-container *ngIf="showMessage">
+                  <div class="fontMulishBold">The number of recommended test stores = {{NoofTestStore}}</div>
+                  <div class="fontMulishBold">
+                    Recommended statistical thresholds:
+                    <ul>
+                      <li>Confidence level: {{ConfLev}}</li>
+                      <li>Margin of error: {{NoofError}}</li>
+                      <li>Power of Test: {{power_test}}</li>
+                    </ul>
+                  </div>
+                </ng-container> -->
+              </div>
+              <div class="col-6">
+                <button mat-raised-button class="font_size_button"
+                  style="float: right;background-color: #000091; color: white;"
+                  (click)="showGenerate(true)"><b>Generate</b>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="selectTestStores === '3' && !uploadShow">
+            <div class="upload_container mt-2">
+              <ng-container *ngIf="!uploaded">
+                <div class="upload_text1 font_mulish_regular">Already have a repository of test stores? Upload it in this
+                  format to go to the next step
+                </div>
+                <div class="upload_text2 font_mulish_bold btn-link dowDEMOoad_template" (click)="dowDEMOoadTemplate()">Click
+                  here
+                  to dowDEMOoad the template
+                </div>
+              </ng-container>
+              <ng-container *ngIf="statusFail">
+                <div class="upload_text1 font_mulish_regular font_color_fail">{{uploadMessageFailed}}</div>
+              </ng-container>
+              <ng-container *ngIf="uploaded">
+                <div class="upload_text1 font_mulish_regular font_color">The number of recommended test stores
+                  = {{NoofTestStore}}</div>
+                <div class="upload_text1 font_mulish_regular font_color">
+                  Recommended statistical thresholds:
+                  <div>Confidence level: {{ConfLev}}</div>
+                  <div>Margin of error: {{NoofError}}</div>
+                  <div>Power of Test: {{power_test}}</div>
+                </div>
+                <div class="upload_text1 font_mulish_regular font_color">{{uploadMessage}}</div>
+                <div class="upload_text3 font_mulish_regular">You can either continue the upload excluding the conflicting
+                  values or cancel the whole upload
+                </div>
+                <button mat-button (click)="cancelUpload()" class="button-color-enable font_size_button"
+                  style="margin-right: 1rem">Cancel
+                </button>
+                <button mat-button class="button-color-enabled-background pl-2 font_size_button"
+                  (click)="contineUpload(false)">Continue
+                </button>
+              </ng-container>
+              <!-- <button mat-button class="pl-2 button-color-enabled-background" style="margin-top: 1rem;">Upload File</button> -->
+              <div *ngIf="!uploaded" (click)="uploadFile.click()">
+                <button mat-button class="pl-2 button-color-enabled-background" style="margin-top: 1rem;">Upload
+                  File
+                </button>
+                <input #uploadFile type="file" id="grade_csv" style="display:none" accept=".xlsx"
+                  (change)="handleFileInput($event.target.files)" name="selectTestStore" />
+              </div>
+            </div>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+    <div class="route_container_top">
+      <mat-card class="fontMulishRegular">
+        <mat-card-content class="mat-card_content">
+          <!-- <form #selectTest="ngForm"> -->
+          <div><span style="font-weight: bold;font-size: 16px;">Selected number of stores:
+              {{testStoreSelectedDataCount}}</span>
+            <div style="float: right">
+              <mat-button-toggle-group #grou="matButtonToggleGroup" [(ngModel)]="tableView" [value]="tableView"
+                (ngModelChange)="getDataUpdated()">
+                <mat-button-toggle [value]="true" [ngClass]="{'not_checked': !tableView}" aria-label="Text align left">
+                  <mat-icon class="toggle_icon"> table_chart</mat-icon>
+                  Table
+                </mat-button-toggle>
+                <mat-button-toggle [value]="false" [ngClass]="{'not_checked': tableView}"
+                  aria-label="Text align center">
+                  <mat-icon class="toggle_icon"> pin_drop</mat-icon>
+                  Map
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </div>
+          <hr />
+          <ng-container *ngIf="tableView">
+            <div *ngIf="totalTestStores!== 0">
+              <app-common-table [tableData]="TestStoreSelectTable" [columnHeader]="columnHeader1" [tableHeader]=""
+                [stringSelection]="strselection" (selectedStrTableData)="selectedstrtable($event)"
+                (checkboxLabelTeststoreData)="checkboxLabelTeststore($event)" (masterToggleData)="masterToggle()"
+                (isAllSelectedData)="isAllSelected()" (selectAllStoresData)="sellectAllStores($event)"
+                (callFilterData)="filterCall()" (callSortData)="sortDataTeststoreSelected($event)" (searchFilter)="FilterLoadTestStoreSelect($event)">
+              </app-common-table>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div *ngIf="totalTestStores == 0" style="text-align: center;">
+                  <p class="no_rec_found">No Records Found</p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!-- </form> -->
+          <ng-container *ngIf="!tableView">
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [usePanning]="agmusePan"
+                  (mapReady)="mapReading()">
+                  <agm-marker *ngFor="let m of markers; let i = index" [agmFitBounds]="true"
+                    [iconUrl]='{"url": m.active_icon,"scaledSize": {"height": 30, "width": 30},labelOrigin:{x:80,y:20}}'
+                    (markerClick)="selectedMarker(m.store_no, m.teststre_flg)" [latitude]="m.latitude"
+                    [longitude]="m.longitude" [markerDraggable]="m.draggable" [animation]="userLocationMarkerAnimation"
+                    (mouseOut)="onMouseOut(infoWindow, $event)" (mouseOver)="onMouseOver(infoWindow,$event)">
+                    <agm-info-window [disableAutoPan]="true" #infoWindow>
+                      <div class="info_window fontMulishRegular">
+                        <div class="font_size">
+                          <b class="store-id-map">{{tableName.test_store_id}} : #{{m.store_no}}</b>
+                          <div class="store-id-map">City : {{m.city}}</div>
+                          <div class="store-id-map">Zip Code: {{m.zipcode}}</div>
+                        </div>
+                      </div>
+                    </agm-info-window>
+                  </agm-marker>
+                </agm-map>
+              </div>
+            </div>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="showComprassion">
+  <div *ngIf="selectStoreView" style="padding-bottom: 15px !important;">
+    <mat-card class="fontMulishRegular">
+      <mat-card-content class="mat-card_content">
+        <div><span style="font-weight: bold;font-size: 16px;">Test Stores to population mapping</span></div>
+        <hr />
+        <ng-container>
+
+          <div>
+            <app-common-table [tableData]="comprassionSelectedStores" [columnHeader]="columnHeader2"
+              [tableType]="comprassion" (callSortData)="sortPopulationMapping($event)"
+              (searchFilter)="FilterComprassionStoreSelect($event)"></app-common-table>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div *ngIf="totalComprassionTestStores == 0" style="text-align: center;">
+                <p class="no_rec_found">No Records Found</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!selectStoreView">
+    <mat-card>
+      <mat-card-content class="mat-card_content">
+        <div><span class="mat_heading">Test - Population comparison summary</span></div>
+        <hr />
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-lg-12">
+            <div id="test_population_charts"></div>
+          </div>
+        </div>
+        <div fxLayout="row pt-3" fxLayoutAlign="space-between center">
+          <div fxFlex="48" class="background_change">
+            <div class="row">
+              <div class="col-md-3 col-lg-3 col-sm-3 control_value text-center">{{avg_test_population}}%</div>
+              <div class="col-md-9 col-lg-9 col-sm-9 control_text">Avg. match between a test stores and population</div>
+            </div>
+          </div>
+          <div fxFlex="48" class="background_change">
+            <div class="row">
+              <div class="col-md-3 col-lg-3 col-sm-3 control_value text-center">{{sales_test_population}}%</div>
+              <div class="col-md-9 col-lg-9 col-sm-9 control_text">Sales correlation value between test and population
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-12 col-sm-12 col-lg-12">
+            <ng-container>
+              <table class="table font_mulish_regular" *ngIf="showRSV">
+                <tr class="table_head_color">
+                  <th class="border_style_left">Store characteristics</th>
+                  <th>Test mean</th>
+                  <th class="border_style_right">Population mean</th>
+                </tr>
+                <tr>
+                  <td>RSV (in {{currencySymbol}})</td>
+                  <td>{{roundOffWithComma(csv_poptestmean)}}</td>
+                  <td>{{roundOffWithComma(csv_pop)}}</td>
+                </tr>
+              </table>
+
+              <table class="table font_mulish_regular" *ngIf="showManned || showsizeSqft">
+                <tr class="table_head_color">
+                  <th class="border_style_left">Store characteristics</th>
+                  <th>Test mean</th>
+                  <th>Population mean</th>
+                  <th class="border_style_right">Feature Importance (%)</th>
+                </tr>
+                <tr *ngIf="showsizeSqft">
+                  <td class="border_change">Store Szie {{isinSqFt}} </td>
+                  <td class="border_change">{{roundOff(out_poptestmean)}}</td>
+                  <td class="border_change">{{roundOff(out_pop)}}</td>
+                  <td class="border_change">{{out_testPvalue}}</td>
+                </tr>
+                <tr *ngIf="showManned">
+                  <td>Manned Checkouts</td>
+                  <td>{{roundOffWithComma(touch_ability_mean)}}</td>
+                  <td>{{roundOffWithComma(touch_ability)}}</td>
+                  <td>{{touch_pValue}}</td>
+                </tr>
+              </table>
+            </ng-container>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-container>
+
+<ng-template #confirmDialog>
+  <mat-dialog-content style="width:25rem">
+    <ng-container *ngIf="showMessage">
+      <div class="fontMulishBold font_size">The number of recommended test stores = {{NoofTestStore}}</div>
+      <div class="fontMulishBold font_size">
+        Recommended statistical thresholds:
+        <ul>
+          <li>Confidence level: {{ConfLev}}</li>
+          <li>Margin of error: {{NoofError}}</li>
+          <li>Power of Test: {{power_test}}</li>
+        </ul>
+      </div>
+    </ng-container>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions style="float: right;padding-top: 1rem;margin-bottom: -10px">
+    <button mat-button class="button-color" (click)="closeDailogConfirm()" style="cursor: pointer">Cancel</button>
+    <button mat-button class="pl-2 button-color-enabled-background" (click)="Savestep3One()" style="cursor: pointer"
+      type="submit">Continue
+    </button>
+  </mat-dialog-actions>
+</ng-template>

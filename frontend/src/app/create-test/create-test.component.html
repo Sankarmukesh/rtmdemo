@@ -1,0 +1,105 @@
+<perfect-scrollbar [style.height.px]="height" style="width:100%;overflow-x: hidden;">
+  <div class="route_container_top route_container_right" #progressContent id="progressContent">
+    <div class="row" style="overflow-x: hidden">
+      <div class="col-md-3 col-lg-3 col-sm-12 col-xl-3">
+        <mat-card [ngStyle]="{display: getdisplay()}">
+          <mat-vertical-stepper #stepper (selectionChange)="stepClick($event)"
+                                style="font-family: Mulish_regular !important;pointer-events: none;">
+            <ng-template matStepperIcon="edit" id="icon_edit" style="background-color: white">
+              <mat-icon>done</mat-icon>
+            </ng-template>
+            <mat-step [completed]="completed1" [state]="state1">
+              <ng-template matStepLabel><span style="font-size: 12px;color: #1f242c">Enter test details</span>
+              </ng-template>
+            </mat-step>
+            <mat-step [completed]="completed2" [state]="state2">
+              <ng-template matStepLabel><span style="font-size: 12px;color: #1f242c">Applicability criteria</span>
+              </ng-template>
+            </mat-step>
+            <mat-step [completed]="completed3" [state]="state3">
+              <ng-template matStepLabel><span style="font-size: 12px;color: #1f242c">Select test stores</span>
+              </ng-template>
+            </mat-step>
+            <mat-step [completed]="completed4" [state]="state4">
+              <ng-template matStepLabel><span style="font-size: 12px;color: #1f242c">Control store mapping</span>
+              </ng-template>
+            </mat-step>
+          </mat-vertical-stepper>
+        </mat-card>
+        <mat-card *ngIf="!showStepper">
+          <mat-card-content *ngIf="controlStore">
+            <div class="control_summary" (click)="changeControlState('Control_Store')"
+                 [ngClass]="{'active_div': generate_store === 'Control_Store', 'inactive_div': generate_store !== 'Control_Store'}">
+              <span
+                [ngClass]="{'active_span control_span_active': generate_store === 'Control_Store', 'control_span_inactive': generate_store !== 'Control_Store'}"></span>Generate
+              control Stores
+            </div>
+            <div *ngIf="!hideCompraison" class="control_summary" (click)="changeControlState('Comprassion_summary')"
+                 [ngClass]="{'active_div': generate_store === 'Comprassion_summary', 'inactive_div': generate_store !== 'Comprassion_summary'}">
+              <span
+                [ngClass]="{'active_span control_span_active': generate_store === 'Comprassion_summary', 'control_span_inactive': generate_store !== 'Comprassion_summary'}"></span>Comparison
+              Summary
+            </div>
+          </mat-card-content>
+          <mat-card-content *ngIf="!controlStore">
+            <div class="control_summary" (click)="changeTestStores('Test_storePopulation', true)"
+                 [ngClass]="{'active_div': generate_Selectstore === 'Test_storePopulation', 'inactive_div': generate_Selectstore !== 'Test_storePopulation'}">
+              <span
+                [ngClass]="{'active_span control_span_active': generate_Selectstore === 'Test_storePopulation', 'control_span_inactive': generate_Selectstore !== 'Test_storePopulation'}"></span>Test
+              Store correlation
+            </div>
+            <div class="control_summary" (click)="changeTestStores('testStore_Comprassion_summary', false)"
+                 [ngClass]="{'active_div': generate_Selectstore === 'testStore_Comprassion_summary', 'inactive_div': generate_Selectstore !== 'testStore_Comprassion_summary'}">
+              <span
+                [ngClass]="{'active_span control_span_active': generate_Selectstore === 'testStore_Comprassion_summary', 'control_span_inactive': generate_Selectstore !== 'testStore_Comprassion_summary'}"></span>Comparison
+              Summary
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="route_container_top">
+          <mat-card class="testcard">
+            <mat-card-content class="mat-card_content">
+              <span class="first_heading">Tips & Tricks</span>
+              <div class="image_div"><img class="image_size" src="assets/images/Tips&Tricks.png" alt="sort"/></div>
+              <hr/>
+              <ul id="Create_test">
+                <li *ngFor="let tip of tipsDataStr">
+                  <span class="second_p">{{tip}}</span>
+                </li>
+              </ul>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="col-md-9 col-lg-9 col-sm-12 col-xl-9 width_grid">
+        <ng-container *ngIf="loadComponent === 0">
+          <app-test-details (moveNextStep)="movenext($event)" (tipsData)="tipsDataPassed($event)"></app-test-details>
+        </ng-container>
+        <ng-container *ngIf="loadComponent === 1">
+          <app-applicability-criteria (moveNextStep)="movenext($event)"
+                                      (tipsData)="tipsDataPassed($event)"></app-applicability-criteria>
+        </ng-container>
+        <ng-container *ngIf="loadComponent === 2">
+          <app-select-test-stores (moveNextStep)="movenext($event)" [testStore_population]="testStoreToggle"
+                                  (showComprassionView)="showComprassionview($event)"
+                                  (tipsData)="tipsDataPassed($event)"></app-select-test-stores>
+        </ng-container>
+        <ng-container *ngIf="loadComponent === 3 || loadComponent === 4 ">
+          <app-control-store-mapping (moveNextStep)="movenext($event)"
+                                     (tipsData)="tipsDataPassed($event)"></app-control-store-mapping>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</perfect-scrollbar>
+<div #footer>
+  <app-footer [currentComponent]="loadComponent" [data]="data"></app-footer>
+</div>
+
+
+
+
+
+
+
