@@ -1,5 +1,5 @@
 .mat-toolbar{
-  background-color: #F68F1D!important;
+  background-color: #fecd72!important;
 }
 
 .has-search .form-control {
@@ -18,9 +18,7 @@
   pointer-events: none;
   color: #aaa;
 }
-.fa-stack[data-count],.toolbar_text,.cursor-pointer{
-  color:white !important;
-}
+
 .fa-stack[data-count]:after{
   position:absolute;
   right: 44%;

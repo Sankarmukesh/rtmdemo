@@ -1,9 +1,6 @@
 // .text-color{
 //   color: #ffffff;
 // }
-// .sidebar_menu{
-//   background-color: rgba(0, 0, 0, 0.85) !important;
-// }
 
 .mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
   padding: 0 22px !important;
@@ -20,11 +17,11 @@
 
 .sidebar_border_active{
   background-color: #2fd1aa;
-  color: rgba(0, 0, 0, 0.85);
+  color: #000091;
   display: flex;
   width: 100%;
   border-radius: 5px;
-  padding: 11px 11px 8px 12px; 
+  padding: 11px 11px 8px 12px;
 }
 
 .sidebar_border {
@@ -36,12 +33,11 @@
 // }
 .sidebar_border_inactive{
   margin-left: 7px;
-  color: white;
+  color: #b6b8d4;
 }
 
 ::ng-deep .dropdown-menu{
-  border-radius: 0.5rem!important;
-  color:white;
+  border-radius: 0.5rem!important
 }
 
 ::ng-deep.ngx-select__item_active{
@@ -51,8 +47,8 @@
 
 ::ng-deep #sidebar .ngx-select__toggle{
   border-radius: 11px!important;
- 
-  color: #4c596b !important;
+  background-color: #000091 !important;
+  color: #b6b8d4 !important;
 }
 
 
@@ -89,5 +85,3 @@
 ::ng-deep .ngx-select__toggle-buttons{
   font-size: 0.75rem!important;
 }
-
-
