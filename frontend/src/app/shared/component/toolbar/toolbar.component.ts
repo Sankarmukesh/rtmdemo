@@ -145,7 +145,8 @@ export class ToolbarComponent implements OnInit, OnDestroy  {
       localStorage.clear();
       if (apiresponse.status == 'ok') {
         localStorage.clear();
-        window.location.href = './login?status=logout';
+      // window.location.href = './login?status=logout';
+        this.router.navigate(['login']);
       } else {
       }
     });

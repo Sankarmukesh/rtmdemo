@@ -146,7 +146,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem('test-type', '');
     if (!localStorage.getItem('foo')) {
       localStorage.setItem('foo', 'no reload');
-      window.location.reload();
+      // window.location.reload();
     } else {
       localStorage.removeItem('foo');
     }

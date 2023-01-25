@@ -8,9 +8,9 @@
 export const environment = {
   production: false,
   version: 1 + '-dev',
-  serverUrl: 'https://accelerators.tigeranalytics.com/RTMFastBackend/',
-  liveUrl: 'https://accelerators.tigeranalytics.com/RTMFastBackend/',
-  reportPath: 'https://accelerators.tigeranalytics.com/RTMFastBackend/report/',
+  serverUrl: 'https://accelerator-dev.tigeranalytics.com/RTMFastBackend/',
+  liveUrl: 'https://accelerator-dev.tigeranalytics.com/RTMFastBackend/',
+  reportPath: 'https://accelerator-dev.tigeranalytics.com/RTMFastBackend/report/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR']
 };
